@@ -1,1 +1,1 @@
-https://github.com/RajdeepMahanta/SIH24.git
+Agricultural App for SIH 24
