@@ -1,3 +1,1 @@
-# agriplant
-
-Agriculture plant app
+https://github.com/RajdeepMahanta/SIH24.git
