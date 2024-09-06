@@ -66,79 +66,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             widget.product.name,
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          const SizedBox(height: 5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Available in stock",
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-              ),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                        text: "\$${widget.product.price}",
-                        style: Theme.of(context).textTheme.titleLarge),
-                    TextSpan(
-                        text: "/${widget.product.unit}",
-                        style: Theme.of(context).textTheme.bodySmall),
-                  ],
-                ),
-              )
-            ],
-          ),
           const SizedBox(height: 10),
-          Row(
-            children: [
-              Icon(
-                Icons.star,
-                size: 16,
-                color: Colors.yellow.shade800,
-              ),
-              Text(
-                "${widget.product.rating} (192)",
-              ),
-              const Spacer(),
-              SizedBox(
-                height: 30,
-                width: 30,
-                child: IconButton.filledTonal(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {},
-                  iconSize: 18,
-                  icon: const Icon(Icons.remove),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Text(
-                  "2 ${widget.product.unit}",
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-                width: 30,
-                child: IconButton.filledTonal(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {},
-                  iconSize: 18,
-                  icon: const Icon(Icons.add),
-                ),
-              ),
-            ],
+          // Removed the Row with "Available in stock" and price
+          // Removed the Row with rating and quantity controls
+          Text(
+            "Description",
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium!
+                .copyWith(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 20),
-          Text("Description",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 5),
           RichText(
             text: TextSpan(
@@ -155,7 +92,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -195,9 +132,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
           const SizedBox(height: 20),
           FilledButton.icon(
-              onPressed: () {},
-              icon: const Icon(IconlyLight.bag2),
-              label: const Text("Add to cart"))
+            onPressed: () {},
+            icon: const Icon(IconlyLight.bag2),
+            label: const Text("More Info"),
+          ),
         ],
       ),
     );

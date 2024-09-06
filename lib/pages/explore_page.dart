@@ -68,8 +68,8 @@ class ExplorePage extends StatelessWidget {
                             Text(
                               "Free consultation",
                               style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    color: Colors.green.shade700,
-                                  ),
+                                color: Colors.green.shade700,
+                              ),
                             ),
                             const Text("Get free support from our customer service"),
                             FilledButton(
@@ -93,7 +93,7 @@ class ExplorePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Featured Products",
+                "Explore",
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               TextButton(
@@ -102,18 +102,15 @@ class ExplorePage extends StatelessWidget {
               ),
             ],
           ),
-          GridView.builder(
+          ListView.builder(
             itemCount: products.length,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.9,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-            ),
             itemBuilder: (context, index) {
-              return ProductCard(product: products[index]);
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: ProductCard(product: products[index]),
+              );
             },
           )
         ],
