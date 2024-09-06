@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:agriplant/data/services.dart';
-import 'package:agriplant/pages/ServiceDetailPage.dart.';  // Ensure this path is correct
+import 'package:agriplant/pages/ServiceDetailPage.dart';  // Ensure this path is correct
 
 class ServicesPage extends StatelessWidget {
   const ServicesPage({super.key});
