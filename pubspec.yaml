@@ -14,6 +14,7 @@ dependencies:
   badges: ^3.1.1
   timelines: ^0.1.0
   easy_stepper: ^0.7.3
+  firebase_core: ^2.24.2
 
 dev_dependencies:
   flutter_test:
