@@ -1,4 +1,4 @@
-import 'package:agriplant/pages/onboarding_page.dart';
+import 'package:agriplant/pages/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,7 +25,7 @@ class MainApp extends StatelessWidget {
         useMaterial3: true,
         textTheme: GoogleFonts.nunitoTextTheme(),
       ),
-      home: const OnboardingPage(),
+      home: LandingPage(),
     );
   }
 }
