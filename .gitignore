@@ -1,5 +1,5 @@
-# Project exclude paths
-/.flutter-plugins
-/.flutter-plugins-dependencies
+# Project exclude path
+.flutter-plugins
+.flutter-plugins-dependencies
 /.dart_tool/
 /build/
