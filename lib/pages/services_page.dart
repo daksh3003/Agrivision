@@ -1,7 +1,7 @@
 import 'dart:ui';
-
-import 'package:agriplant/data/services.dart';
 import 'package:flutter/material.dart';
+import 'package:agriplant/data/services.dart';
+import 'package:agriplant/pages/ServiceDetailPage.dart';  // Ensure this path is correct
 
 class ServicesPage extends StatelessWidget {
   const ServicesPage({super.key});
@@ -19,31 +19,44 @@ class ServicesPage extends StatelessWidget {
           mainAxisSpacing: 14,
         ),
         itemBuilder: (context, index) {
-          return Container(
-            alignment: Alignment.bottomCenter,
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                image: AssetImage(services[index].image),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+          return InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ServiceDetailPage(
+                    serviceName: services[index].name,
+                    // Remove serviceImage parameter
                   ),
-                  child: Text(
-                    services[index].name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
+                ),
+              );
+            },
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: AssetImage(services[index].image),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    ),
+                    child: Text(
+                      services[index].name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
