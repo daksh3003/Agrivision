@@ -28,6 +28,8 @@ flutter:
 
   assets:
     - assets/
+    - assets/logo.png
+    - assets/social.png
     - assets/images/
     - assets/services/
     - shorebird.yaml
