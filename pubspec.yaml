@@ -15,6 +15,7 @@ dependencies:
   timelines: ^0.1.0
   easy_stepper: ^0.7.3
   firebase_core: ^2.24.2
+  firebase_auth: ^4.16.0
 
 dev_dependencies:
   flutter_test:
