@@ -1,5 +1,6 @@
+import 'package:agriplant/pages/signup_page.dart';
 import 'package:flutter/material.dart';
-import 'login_signup_page.dart'; // Import the login/signup page
+
 
 class LandingPage extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class _LandingPageState extends State<LandingPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => LoginSignupPage(userType: selectedUser),
+        builder: (context) => SignUpPage(userType: selectedUser),
       ),
     );
   }
@@ -20,7 +21,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome to Crop Disease Detector'),
+        title: Text('Welcome'),
       ),
       body: Center(
         child: Column(
