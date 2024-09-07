@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 
@@ -8,20 +9,16 @@ class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key, required this.userType}) : super(key: key);
 
   @override
-  _SampleSignupState createState() => _SampleSignupState();
+  _SignUpPageState createState() => _SignUpPageState();
 }
 
-class _SampleSignupState extends State<SignUpPage> {
-
-
+class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
-  // Controllers for text fields
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
-  // Function to handle form submission
   void submitForm() async {
     if (_formKey.currentState?.validate() ?? false) {
       String name = _nameController.text.trim();
@@ -30,7 +27,6 @@ class _SampleSignupState extends State<SignUpPage> {
       String cpassword = _confirmPasswordController.text.trim();
 
       if (cpassword != password) {
-        print('Passwords do not match');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Passwords do not match')),
         );
@@ -44,20 +40,24 @@ class _SampleSignupState extends State<SignUpPage> {
         );
 
         if (userCredential.user != null) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => LoginPage(userType: widget.userType),
-            ),
-          );
+          await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+            'name': name,
+            'email': email,
+            'userType': widget.userType, // Optional: Store userType if needed
+          });
+          // Optionally, you can sign in the user right after signing up
+          // Navigator.pushReplacement(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => LoginPage(userType: widget.userType),
+          //   ),
+          // );
         }
       } on FirebaseAuthException catch (ex) {
-        print(ex.code.toString());
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${ex.message}')),
         );
       } catch (e) {
-        print('Error: $e');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('An unknown error occurred')),
         );
@@ -65,20 +65,17 @@ class _SampleSignupState extends State<SignUpPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    // Fetch the primary color from the theme
     final primaryColor = Theme.of(context).primaryColor;
 
     return Scaffold(
       body: Stack(
         children: [
-          // Background Solid Primary Color
           Container(
             height: double.infinity,
             width: double.infinity,
-            color: Theme.of(context).primaryColor, // Use primary color here
+            color: primaryColor,
             child: const Padding(
               padding: EdgeInsets.only(top: 60.0, left: 22),
               child: Text(
@@ -104,13 +101,12 @@ class _SampleSignupState extends State<SignUpPage> {
               height: double.infinity,
               width: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.only(left: 18.0, right: 18),
+                padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Full Name Field
                       TextFormField(
                         controller: _nameController,
                         decoration: InputDecoration(
@@ -129,7 +125,6 @@ class _SampleSignupState extends State<SignUpPage> {
                         },
                       ),
                       const SizedBox(height: 10),
-                      // Phone or Email Field
                       TextFormField(
                         controller: _emailController,
                         decoration: InputDecoration(
@@ -148,7 +143,6 @@ class _SampleSignupState extends State<SignUpPage> {
                         },
                       ),
                       const SizedBox(height: 10),
-                      // Password Field
                       TextFormField(
                         controller: _passwordController,
                         decoration: InputDecoration(
@@ -168,7 +162,6 @@ class _SampleSignupState extends State<SignUpPage> {
                         },
                       ),
                       const SizedBox(height: 10),
-                      // Confirm Password Field
                       TextFormField(
                         controller: _confirmPasswordController,
                         decoration: InputDecoration(
@@ -188,7 +181,6 @@ class _SampleSignupState extends State<SignUpPage> {
                         },
                       ),
                       const SizedBox(height: 70),
-                      // Sign Up Button
                       GestureDetector(
                         onTap: submitForm,
                         child: Container(
@@ -211,7 +203,6 @@ class _SampleSignupState extends State<SignUpPage> {
                         ),
                       ),
                       const SizedBox(height: 80),
-                      // Login Prompt
                       Align(
                         alignment: Alignment.bottomRight,
                         child: Column(
@@ -227,7 +218,6 @@ class _SampleSignupState extends State<SignUpPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                // Navigate to Login Page
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

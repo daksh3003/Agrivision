@@ -19,17 +19,22 @@ class _SampleLoginState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   // Function to handle form submission
-  void submitForm() async{
+  void submitForm() async {
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
-    if (_formKey.currentState?.validate() ?? false) {
-      try{
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
 
-        if(userCredential.user !=null){
-          
-          Navigator.popUntil(context,(route) => route.isFirst);
+    if (_formKey.currentState?.validate() ?? false) {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+
+        if (userCredential.user != null) {
+          Navigator.popUntil(context, (route) => route.isFirst);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -37,17 +42,52 @@ class _SampleLoginState extends State<LoginPage> {
             ),
           );
         }
-      }on FirebaseAuthException catch (ex) {
-        print(ex.code.toString());
+      } on FirebaseAuthException catch (ex) {
+        String errorMessage;
+
+        switch (ex.code) {
+          case 'user-not-found':
+            errorMessage = 'No user found for that email.';
+            break;
+          case 'wrong-password':
+            errorMessage = 'Wrong password provided for that user.';
+            break;
+          case 'invalid-email':
+            errorMessage = 'Invalid email address.';
+            break;
+          default:
+            errorMessage = 'Error: ${ex.message}';
+            break;
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${ex.message}')),
+          SnackBar(content: Text(errorMessage)),
         );
-      }catch (e) {
+      } catch (e) {
         print('Error: $e');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('An unknown error occurred')),
         );
       }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkUserPersistence();
+  }
+
+  // Check if a user is already logged in
+  void checkUserPersistence() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ),
+      );
     }
   }
 
