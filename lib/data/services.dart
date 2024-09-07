@@ -2,8 +2,8 @@ import '../models/service.dart';
 
 List<Service> services = [
   const Service(
-    name: "Apple",
-    image: "assets/services/seeds.jpg",
+    name: "Corn",
+    image: "assets/services/corn.jpg",
   ),
   const Service(
     name: "Seedlings",
