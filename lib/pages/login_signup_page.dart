@@ -88,18 +88,7 @@ class LoginSignupPage extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-            const Spacer(),
-            const Text(
-              'Login with Social Media',
-              style: TextStyle(
-                fontSize: 17,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 12),
-            // Use the social icons from assets
-            const Image(image: AssetImage('assets/social.png'), height: 40), // Add height if needed
+            )
           ],
         ),
       ),

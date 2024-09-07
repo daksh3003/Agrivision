@@ -44,7 +44,9 @@ class ProductCard extends StatelessWidget {
                 height: 30,
                 child: IconButton.filledTonal(
                   padding: EdgeInsets.zero,
-                  onPressed: () {},
+                  onPressed: () {
+                    //TODO add bookmark and Bookmarks tab in Profile
+                  },
                   iconSize: 18,
                   icon: const Icon(IconlyLight.bookmark),
                 ),
@@ -75,16 +77,6 @@ class ProductCard extends StatelessWidget {
 
                                 style: Theme.of(context).textTheme.bodySmall),
                           ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 30,
-                        height: 30,
-                        child: IconButton.filled(
-                          padding: EdgeInsets.zero,
-                          onPressed: () {},
-                          iconSize: 18,
-                          icon: const Icon(Icons.add),
                         ),
                       )
                     ],
