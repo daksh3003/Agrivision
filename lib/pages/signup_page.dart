@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart';
@@ -64,6 +65,13 @@ class _SampleSignupState extends State<SignUpPage> {
         );
 
         if (userCredential.user != null) {
+          // Store additional user information in Firestore
+          await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+            'name': _nameController.text.trim(),
+            'email': _emailController.text.trim(),
+            'userType': widget.userType,
+          });
+
           Navigator.popUntil(context, (route) => route.isFirst);
           Navigator.pushReplacement(
             context,
