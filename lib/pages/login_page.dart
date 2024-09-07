@@ -19,12 +19,34 @@ class _SampleLoginState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // Variables to toggle password visibility
+  bool _passwordVisible = false;
 
-  // Function to handle form submission
+  // Variables to track validation status
+  bool _isEmailValid = false;
+  bool _isPasswordValid = false;
+
+  // Regular expression for email validation
+  final emailRegExp = RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+$');
+
+  // Real-time validation for the Email field
+  void _validateEmail(String value) {
+    setState(() {
+      _isEmailValid = emailRegExp.hasMatch(value);
+    });
+  }
+
+  // Real-time validation for the Password field
+  void _validatePassword(String value) {
+    setState(() {
+      _isPasswordValid = value.length >= 6;
+    });
+  }
+
   void submitForm() async {
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
+    print('Submitting form with email: $email and password: $password');
 
     if (_formKey.currentState?.validate() ?? false) {
       try {
@@ -32,6 +54,7 @@ class _SampleLoginState extends State<LoginPage> {
           email: email,
           password: password,
         );
+        print('User signed in: ${userCredential.user}');
 
         if (userCredential.user != null) {
           Navigator.popUntil(context, (route) => route.isFirst);
@@ -43,25 +66,9 @@ class _SampleLoginState extends State<LoginPage> {
           );
         }
       } on FirebaseAuthException catch (ex) {
-        String errorMessage;
-
-        switch (ex.code) {
-          case 'user-not-found':
-            errorMessage = 'No user found for that email.';
-            break;
-          case 'wrong-password':
-            errorMessage = 'Wrong password provided for that user.';
-            break;
-          case 'invalid-email':
-            errorMessage = 'Invalid email address.';
-            break;
-          default:
-            errorMessage = 'Error: ${ex.message}';
-            break;
-        }
-
+        print('FirebaseAuthException: ${ex.code}');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMessage)),
+          SnackBar(content: Text('Error: ${ex.message}')),
         );
       } catch (e) {
         print('Error: $e');
@@ -69,191 +76,197 @@ class _SampleLoginState extends State<LoginPage> {
           SnackBar(content: Text('An unknown error occurred')),
         );
       }
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    checkUserPersistence();
-  }
-
-  // Check if a user is already logged in
-  void checkUserPersistence() async {
-    User? user = _auth.currentUser;
-    if (user != null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomePage(),
-        ),
-      );
+    } else {
+      print('Form validation failed');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Fetch the primary color from the theme
-    final primaryColor = Theme.of(context).primaryColor;
+    final primaryColor = Colors.green;
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          // Background with solid primary color
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            color: primaryColor, // Use primary color from theme
-            child: const Padding(
-              padding: EdgeInsets.only(top: 60.0, left: 22),
-              child: Text(
-                'Hello\nSign in!',
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 200.0),
-            child: Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
-                ),
-                color: Colors.white,
-              ),
+    return GestureDetector(
+      onTap: () {
+        // Unfocus the current TextField when tapping outside
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Stack(
+          children: [
+            // Background with solid primary color
+            Container(
               height: double.infinity,
               width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Email Field
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          suffixIcon: const Icon(Icons.check, color: Colors.grey),
-                          labelText: 'Email',
-                          labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: primaryColor, // Set label text color to primary color
-                          ),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value == null || !value.contains('@')) {
-                            return 'Please enter a valid email';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      // Password Field
-                      TextFormField(
-                        controller: _passwordController,
-                        decoration: InputDecoration(
-                          suffixIcon: const Icon(Icons.visibility_off, color: Colors.grey),
-                          labelText: 'Password',
-                          labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: primaryColor, // Set label text color to primary color
-                          ),
-                        ),
-                        obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.length < 6) {
-                            return 'Password must be at least 6 characters long';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      // Forgot Password Link
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          'Forgot Password?',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: Colors.black, // Set the forgot password link color to primary color
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 70),
-                      // Sign In Button
-                      GestureDetector(
-                        onTap: submitForm,
-                        child: Container(
-                          height: 55,
-                          width: 300,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: primaryColor, // Set the button color to primary color
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'Login',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 150),
-                      // Sign Up Prompt
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Text(
-                              "Don't have an account?",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // Navigate to Sign Up Page
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SignUpPage(userType: widget.userType),
-                                  ),
-                                );
-                              },
-                              child: const Text(
-                                "Sign up",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+              color: primaryColor, // Use primary color from theme
+              child: const Padding(
+                padding: EdgeInsets.only(top: 60.0, left: 22),
+                child: Text(
+                  'Hello\nSign in!',
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(top: 200.0),
+              child: Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  ),
+                  color: Colors.white,
+                ),
+                height: double.infinity,
+                width: double.infinity,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 20),
+                          // Email Field with Real-Time Validation and Validator
+                          TextFormField(
+                            controller: _emailController,
+                            onChanged: _validateEmail, // Real-time validation
+                            decoration: InputDecoration(
+                              suffixIcon: _isEmailValid
+                                  ? const Icon(Icons.check, color: Colors.green)
+                                  : null,
+                              labelText: 'Email',
+                              labelStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black, // Set label text color to primary color
+                              ),
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) {
+                              if (value == null || !emailRegExp.hasMatch(value)) {
+                                return 'Please enter a valid email';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          // Password Field with Real-Time Validation and Validator
+                          TextFormField(
+                            controller: _passwordController,
+                            onChanged: _validatePassword, // Real-time validation
+                            decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                                  color: Colors.grey,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _passwordVisible = !_passwordVisible;
+                                  });
+                                },
+                              ),
+                              labelText: 'Password',
+                              labelStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black, // Set label text color to primary color
+                              ),
+                            ),
+                            obscureText: !_passwordVisible,
+                            validator: (value) {
+                              if (value == null || value.length < 6) {
+                                return 'Password must be at least 6 characters long';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 20),
+                          // Forgot Password Link
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              'Forgot Password?',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17,
+                                color: Colors.black, // Set the forgot password link color to primary color
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 70),
+                          // Sign In Button
+                          GestureDetector(
+                            onTap: submitForm,
+                            child: Container(
+                              height: 55,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: primaryColor, // Set the button color to primary color
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'Login',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 150),
+                          // Sign Up Prompt
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                const Text(
+                                  "Don't have an account?",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    // Navigate to Sign Up Page
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SignUpPage(userType: widget.userType),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    "Sign up",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
