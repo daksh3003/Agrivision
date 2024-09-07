@@ -1,23 +1,61 @@
-import 'package:agriplant/pages/landing_page.dart';
 import 'package:agriplant/pages/orders_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:agriplant/pages/landing_page.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  String userName = '';
+  String userEmail = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    try {
+      // Get the current user
+      User? user = _auth.currentUser;
+
+      if (user != null) {
+        // Fetch the user document from Firestore
+        DocumentSnapshot userDoc =
+        await _firestore.collection('users').doc(user.uid).get();
+
+        if (userDoc.exists) {
+          setState(() {
+            userName = userDoc['name'] ?? 'No Name';
+            userEmail = userDoc['email'] ?? 'No Email';
+          });
+        } else {
+          // Handle case where user data does not exist
+          setState(() {
+            userName = 'Unknown User';
+            userEmail = 'Unknown Email';
+          });
+        }
+      }
+    } catch (e) {
+      // Handle errors
+      print('Error fetching user data: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
       body: ListView(
         children: [
           Padding(
@@ -34,13 +72,13 @@ class ProfilePage extends StatelessWidget {
           ),
           Center(
             child: Text(
-              "Jessi Williams",
+              userName,
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
           Center(
             child: Text(
-              "jessiwills@gmail.com",
+              userEmail,
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
@@ -50,11 +88,10 @@ class ProfilePage extends StatelessWidget {
             leading: const Icon(IconlyLight.bag),
             onTap: () {
               Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const OrdersPage(),
-                ),
-              );
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const OrdersPage(),
+                  ));
             },
           ),
           ListTile(
@@ -78,3 +115,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 }
+
+
+
+
