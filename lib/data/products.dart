@@ -2,7 +2,7 @@ import '../models/product.dart';
 
 List<Product> products = [
   const Product(
-    name: "1. Essential Farming Tips",
+    name: "Essential Farming Tips",
     description:
         """Crop Rotation: Crop rotation is a practice where different types of crops are planted in a sequence on the same field. This method helps in maintaining soil fertility, reducing soil erosion, and controlling pests and diseases. For example, planting legumes like beans or peas after cereal crops like wheat can replenish nitrogen levels in the soil, as legumes naturally fix atmospheric nitrogen. This reduces the need for chemical fertilizers, leading to healthier and more sustainable farming.
 "Efficient Water Management: Water is a critical resource for farming, and efficient management can greatly improve crop yields. Drip irrigation is a precise method that delivers water directly to the roots of plants, minimizing evaporation and runoff. This method not only conserves water but also ensures that crops receive a consistent supply of moisture, which is crucial during dry spells. Additionally, scheduling irrigation during cooler parts of the day (early morning or late evening) can further reduce water loss due to evaporation.""",
@@ -12,7 +12,7 @@ List<Product> products = [
     rating: 4.35,
   ),
   const Product(
-    name: "2. Pesticide Knowledge",
+    name: "Pesticide Knowledge",
     description:
         """"Natural Pesticides: Using natural pesticides like neem oil or garlic spray can effectively control pests while minimizing harm to beneficial insects, soil organisms, and the environment. Neem oil works by disrupting the life cycle of pests, making it particularly effective against insects like aphids and whiteflies. Garlic spray, on the other hand, acts as a repellent against a wide range of pests, including caterpillars and beetles. These organic options not only protect your crops but also support sustainable farming practices.
 Integrated Pest Management (IPM): IPM is a holistic approach that combines multiple strategies to manage pests effectively. It includes using biological controls (like introducing natural predators), cultural practices (like crop rotation and intercropping), mechanical methods (like traps), and chemical controls (as a last resort). By combining these methods, farmers can reduce pest populations while minimizing the use of harmful pesticides, thereby promoting a healthier ecosystem.
@@ -24,7 +24,7 @@ Pesticide Safety and Best Practices: When using synthetic pesticides, it’s cru
     rating: 3.86,
   ),
   const Product(
-    name: "3. Natural Soil Fertilization Methods",
+    name: "Natural Soil Fertilization Methods",
     description:
         """" Green Manure: Green manure refers to crops that are specifically grown to be plowed back into the soil. Plants like clover, alfalfa, and rye are commonly used as green manure because they grow quickly and add valuable organic matter and nutrients to the soil. These cover crops can improve soil structure, increase moisture retention, and reduce erosion, making the soil more fertile for subsequent crops.
 Bone Meal for Phosphorus: Bone meal is a natural fertilizer made from ground animal bones, rich in phosphorus, which is essential for strong root development and flowering in plants. Applying bone meal to your soil can help promote healthy root systems, improve nutrient uptake, and enhance overall plant growth. It’s especially useful in soils that are deficient in phosphorus and can be applied during planting or as a top dressing.
@@ -36,7 +36,7 @@ Encouraging Earthworms: Earthworms are often referred to as nature’s tillers. 
     rating: 4.18,
   ),
   const Product(
-    name: "4. Crop Selection Based on Soil Type",
+    name: "Crop Selection Based on Soil Type",
     description:
         """"Clay Soil: Clay soil is dense and heavy, with the ability to retain water, making it ideal for moisture-loving crops. Crops like broccoli, cabbage, and rice thrive in clay soils due to their ability to withstand waterlogged conditions. However, proper drainage management is essential to avoid root rot and ensure healthy plant growth.
 Sandy Soil: Sandy soil is light and drains quickly, which makes it suitable for crops that prefer well-drained conditions. Carrots, potatoes, and peanuts are examples of crops that perform well in sandy soils. To improve water retention in sandy soil, adding organic matter like compost can be beneficial. Sandy soils also warm up quickly in the spring, giving early crops an advantage.
@@ -47,7 +47,7 @@ Loamy Soil: Loamy soil is considered the best soil type for most crops due to it
     rating: 5.0,
   ),
   const Product(
-    name: "5. Government Schemes and Subsidies",
+    name: "Government Schemes and Subsidies",
     description:
         """" Pradhan Mantri Fasal Bima Yojana (PMFBY): This government-backed crop insurance scheme provides financial assistance to farmers in the event of crop failure due to natural disasters like floods, droughts, or pest attacks. The scheme covers a wide range of crops and ensures that farmers can recover from losses and continue their agricultural activities without falling into debt.
 Kisan Credit Card (KCC): The Kisan Credit Card scheme offers farmers access to affordable credit, which they can use to meet their agricultural needs, such as buying seeds, fertilizers, and equipment. The loans under this scheme are offered at low-interest rates, making it easier for farmers to invest in their farms and improve productivity without financial strain.
@@ -59,7 +59,7 @@ PM-Kisan Samman Nidhi: This direct income support scheme provides eligible farme
     rating: 5.0,
   ),
   const Product(
-    name: "6. Farming Tools Knowledge",
+    name: "Farming Tools Knowledge",
 
     description:
         """ Seed Drill: A seed drill is an essential tool for modern farming that ensures even distribution of seeds at the correct depth, leading to uniform germination and better crop yields. By planting seeds in well-spaced rows, the seed drill reduces seed wastage and allows for easier weeding and irrigation. This tool is particularly beneficial for large-scale farmers looking to increase efficiency and productivity.
@@ -71,7 +71,8 @@ Hand-Held Sprayer: For small to medium-sized farms, a hand-held sprayer is a pra
     rating: 3.22,
   ),
 
-  const Product(name: "7. Daily Farming Updates",
+  const Product(
+    name: "Daily Farming Updates",
       description:""" Weather Forecasts: Access to accurate and timely weather forecasts is crucial for effective farm management. By staying informed about upcoming weather conditions, farmers can plan their irrigation schedules, protect crops from extreme weather events, and optimize fieldwork for better productivity.
 Market Prices: Keeping track of daily market prices allows farmers to make informed decisions about when and where to sell their produce for the best returns. This information can help farmers avoid selling during periods of low prices and maximize their profits during high-demand seasons.
 Agricultural News and Trends: Stay updated with the latest developments in the agricultural sector, including new government policies, innovative farming techniques, and emerging market trends. This knowledge can help farmers stay competitive, adopt new technologies, and take advantage of available opportunities to improve their farming practices.""",

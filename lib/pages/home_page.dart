@@ -2,7 +2,6 @@ import 'package:agriplant/pages/cart_page.dart';
 import 'package:agriplant/pages/explore_page.dart';
 import 'package:agriplant/pages/profile_page.dart';
 import 'package:agriplant/pages/services_page.dart';
-import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
@@ -44,21 +43,21 @@ class _HomePageState extends State<HomePage> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton.filledTonal(
-              onPressed: () {},
-              icon: badges.Badge(
-                badgeContent: const Text(
-                  '3',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                  ),
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                );
+              },
+              icon: CircleAvatar(
+                radius: 24,
+                backgroundColor: Colors.green.shade100,
+                child: Icon(
+                  IconlyBold.profile,
+                  color: Colors.green.shade900,
+                  size: 22,
                 ),
-                position: badges.BadgePosition.topEnd(top: -15, end: -12),
-                badgeStyle: const badges.BadgeStyle(
-                  badgeColor: Colors.green,
-                ),
-                child: const Icon(IconlyBroken.notification),
               ),
             ),
           ),

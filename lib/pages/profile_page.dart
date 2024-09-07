@@ -1,3 +1,4 @@
+import 'package:agriplant/pages/landing_page.dart';
 import 'package:agriplant/pages/orders_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -8,6 +9,15 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profile'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: ListView(
         children: [
           Padding(
@@ -40,10 +50,11 @@ class ProfilePage extends StatelessWidget {
             leading: const Icon(IconlyLight.bag),
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const OrdersPage(),
-                  ));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const OrdersPage(),
+                ),
+              );
             },
           ),
           ListTile(
@@ -54,7 +65,13 @@ class ProfilePage extends StatelessWidget {
           ListTile(
             title: const Text("Logout"),
             leading: const Icon(IconlyLight.logout),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => LandingPage()),
+                    (Route<dynamic> route) => false, // Removes all previous routes
+              );
+            },
           ),
         ],
       ),
