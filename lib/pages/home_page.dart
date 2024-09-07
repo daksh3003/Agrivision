@@ -4,6 +4,9 @@ import 'package:agriplant/pages/profile_page.dart';
 import 'package:agriplant/pages/services_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,10 +16,43 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  String username = 'Loading...';
+
   final pages = [const ExplorePage(), const ServicesPage(), const CartPage(), const ProfilePage()];
+
   int currentPageIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  @override
+  void initState(){
+    super.initState();
+    _fetchUserName();
+  }
+  Future<void> _fetchUserName() async {
+    try{
+      User ? user = _auth.currentUser;
+      if(user != null){
+        DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
+        if(userDoc.exists) {
+          setState(() {
+            username = userDoc['name'] ?? 'No name';
+          });
+        }
+          else{
+            setState(() {
+              username = 'unknown user';
+            });
+        }
+      }
+    }catch(e){
+      print('error fetching user data');
+      setState(() {
+        username = 'Error Loading Name';
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +70,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Hi Wilson 👋🏾",
+              "Hi $username👋🏾",
               style: Theme.of(context).textTheme.titleMedium,
             ),
             Text("Enjoy our services", style: Theme.of(context).textTheme.bodySmall)
