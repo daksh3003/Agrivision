@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpPage extends StatefulWidget {
   final String userType;
@@ -11,8 +13,9 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SampleSignupState extends State<SignUpPage> {
-  final _formKey = GlobalKey<FormState>();
 
+
+  final _formKey = GlobalKey<FormState>();
   // Controllers for text fields
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -20,9 +23,20 @@ class _SampleSignupState extends State<SignUpPage> {
   final TextEditingController _confirmPasswordController = TextEditingController();
 
   // Function to handle form submission
-  void submitForm() {
-    if (_formKey.currentState?.validate() ?? false) {
-      // If the form is valid, navigate to the login page
+  void submitForm() async {
+    String name = _nameController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+    String cpassword = _confirmPasswordController.text.trim();
+    if(name == "" || email == ""|| password ==""|| cpassword == ""){
+      print("enter all the details");
+    }
+     else if(cpassword!=password){
+       print('passwords do not match');
+     }
+     else{
+       UserCredential userCredential =
+       await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -30,6 +44,16 @@ class _SampleSignupState extends State<SignUpPage> {
         ),
       );
     }
+
+    // if (_formKey.currentState?.validate() ?? false) {
+    //   // If the form is valid, navigate to the login page
+    //   Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => LoginPage(userType: widget.userType),
+    //     ),
+    //   );
+    // }
   }
 
   @override
@@ -127,7 +151,7 @@ class _SampleSignupState extends State<SignUpPage> {
                         ),
                         obscureText: true,
                         validator: (value) {
-                          if (value == null || value.length < 8) {
+                          if (value == null || value.length < 6) {
                             return 'Password must be at least 8 characters long';
                           }
                           return null;
