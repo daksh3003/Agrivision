@@ -35,3 +35,6 @@ flutter:
     - assets/images/
     - assets/services/
     - shorebird.yaml
+    - assets/rake.jpg
+    - assets/truck.jpg
+    - assets/farm.jpg
