@@ -1,5 +1,6 @@
 import 'package:agriplant/pages/home_page.dart';
 import 'package:agriplant/pages/signup_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,14 +20,34 @@ class _SampleLoginState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   // Function to handle form submission
-  void submitForm() {
+  void submitForm() async{
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
     if (_formKey.currentState?.validate() ?? false) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomePage(),
-        ),
-      );
+      try{
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+
+        if(userCredential.user !=null){
+          
+          Navigator.popUntil(context,(route) => route.isFirst);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+          );
+        }
+      }on FirebaseAuthException catch (ex) {
+        print(ex.code.toString());
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${ex.message}')),
+        );
+      }catch (e) {
+        print('Error: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('An unknown error occurred')),
+        );
+      }
     }
   }
 
@@ -107,8 +128,8 @@ class _SampleLoginState extends State<LoginPage> {
                         ),
                         obscureText: true,
                         validator: (value) {
-                          if (value == null || value.length < 8) {
-                            return 'Password must be at least 8 characters long';
+                          if (value == null || value.length < 6) {
+                            return 'Password must be at least 6 characters long';
                           }
                           return null;
                         },
