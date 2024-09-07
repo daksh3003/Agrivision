@@ -14,7 +14,7 @@ class LoginSignupPage extends StatelessWidget {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        color: Theme.of(context).primaryColor, // Solid color background
+        color: Colors.green, // Solid color background
         child: Column(
           children: [
             const Padding(
@@ -83,7 +83,7 @@ class LoginSignupPage extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Colors.green,
                     ),
                   ),
                 ),
