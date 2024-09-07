@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ServiceDetailPage extends StatefulWidget {
   final String serviceName;
@@ -13,6 +15,10 @@ class ServiceDetailPage extends StatefulWidget {
 
 class _ServiceDetailPageState extends State<ServiceDetailPage> {
   File? _image;
+  String? _prediction;
+
+  // The address of the Flask server
+  final String serverUrl = 'http://172.20.26.58:8080/predict'; // Update with your Flask server address
 
   // Function to pick an image from the gallery
   Future<void> _pickImageFromGallery() async {
@@ -33,6 +39,24 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
       setState(() {
         _image = File(pickedFile.path);
       });
+    }
+  }
+
+  // Function to upload the image to the Flask server
+  Future<void> _uploadImage(File imageFile) async {
+    var request = http.MultipartRequest('POST', Uri.parse(serverUrl));
+    request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
+
+    var res = await request.send();
+    if (res.statusCode == 200) {
+      final response = await http.Response.fromStream(res);
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      setState(() {
+        _prediction = responseData['prediction'];
+      });
+      print(_prediction);
+    } else {
+      print('Failed to upload image');
     }
   }
 
@@ -61,6 +85,14 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 20),
+
+              // Display prediction result
+              _prediction != null
+                  ? Text(
+                'Prediction: $_prediction',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              )
+                  : const SizedBox(),
 
               // Button to upload an image from the device
               Padding(
@@ -99,6 +131,30 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                   ),
                 ),
               ),
+
+              // Button to upload the selected image to the server
+              if (_image != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      if (_image != null) {
+                        _uploadImage(_image!);
+                      }
+                    },
+                    icon: const Icon(Icons.upload),
+                    label: const Text('Upload Image to Server'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange, // Button color
+                      foregroundColor: Colors.white, // Text color
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      elevation: 5,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
