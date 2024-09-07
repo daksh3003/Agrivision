@@ -1,8 +1,7 @@
-import 'package:agriplant/data/newcartdetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:agriplant/newpages/ProductDetailPage.dart';
-import 'package:agriplant/data/newcartdetails.dart';// Update with correct path
+import 'package:agriplant/data/newcartdetails.dart';
+import 'package:agriplant/newpages/NewCartPage.dart';// Assuming this is the correct path
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -12,7 +11,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  final cartItems = newCartDetails.take(4).toList(); // Use newCartDetails here
+  final cartItems = newCartDetails.take(4).toList(); // Use your newCartDetails list
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +43,7 @@ class _CartPageState extends State<CartPage> {
                   final cartItem = cartItems[index];
                   return GestureDetector(
                     onTap: () {
+                      // Navigate to the product detail page
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -59,6 +59,7 @@ class _CartPageState extends State<CartPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // Load the image using AssetImage or NetworkImage based on the source
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
@@ -67,7 +68,9 @@ class _CartPageState extends State<CartPage> {
                                   topRight: Radius.circular(10),
                                 ),
                                 image: DecorationImage(
-                                  image: NetworkImage(cartItem.image),
+                                  image: cartItem.image.startsWith('assets/')
+                                      ? AssetImage(cartItem.image) as ImageProvider
+                                      : NetworkImage(cartItem.image),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -78,6 +81,7 @@ class _CartPageState extends State<CartPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                // Product name
                                 Text(
                                   cartItem.name,
                                   style: const TextStyle(
@@ -88,6 +92,7 @@ class _CartPageState extends State<CartPage> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 const SizedBox(height: 5),
+                                // Product price
                                 Text(
                                   "\$${cartItem.price.toStringAsFixed(2)}",
                                   style: const TextStyle(
@@ -96,13 +101,14 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                 ),
                                 const SizedBox(height: 5),
+                                // Remove from cart button
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: IconButton(
                                     icon: const Icon(Icons.remove_shopping_cart, color: Colors.red),
                                     onPressed: () {
                                       setState(() {
-                                        cartItems.removeAt(index);
+                                        cartItems.removeAt(index); // Remove item from cart
                                       });
                                     },
                                   ),
@@ -118,6 +124,7 @@ class _CartPageState extends State<CartPage> {
               ),
             ),
             const SizedBox(height: 20),
+            // Total price section
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -136,6 +143,7 @@ class _CartPageState extends State<CartPage> {
               ],
             ),
             const SizedBox(height: 20),
+            // Proceed to checkout button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
