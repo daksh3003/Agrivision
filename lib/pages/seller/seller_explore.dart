@@ -1,5 +1,5 @@
-import 'package:agriplant/data/products.dart';
-import 'package:agriplant/widgets/product_card.dart';
+import 'package:agriplant/data/seller_products.dart';
+import 'package:agriplant/widgets/seller_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
@@ -103,13 +103,13 @@ class SellerExplore extends StatelessWidget {
             ],
           ),
           ListView.builder(
-            itemCount: products.length,
+            itemCount: sellerProducts.length,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
-                child: ProductCard(product: products[index]),
+                child: SellerCard(product: sellerProducts[index]),
               );
             },
           )

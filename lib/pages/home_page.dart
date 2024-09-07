@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
               },
               icon: CircleAvatar(
                 radius: 24,
-                backgroundColor: Colors.green.shade100,
+                backgroundColor: Colors.green.shade50,
                 child: Icon(
                   IconlyBold.profile,
                   color: Colors.green.shade900,
@@ -116,17 +116,17 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(IconlyLight.call),
-            label: "Disease Detection",
+            label: "Detection",
             activeIcon: Icon(IconlyBold.call),
           ),
           BottomNavigationBarItem(
             icon: Icon(IconlyLight.buy),
-            label: "Community",
+            label: "Marketplace",
             activeIcon: Icon(IconlyBold.buy),
           ),
           BottomNavigationBarItem(
             icon: Icon(IconlyLight.profile),
-            label: "Profile",
+            label: "Community",
             activeIcon: Icon(IconlyBold.profile),
           ),
         ],
