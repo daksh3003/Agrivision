@@ -26,11 +26,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _fetchUserData() async {
     try {
-      // Get the current user
       User? user = _auth.currentUser;
 
       if (user != null) {
-        // Fetch the user document from Firestore
         DocumentSnapshot userDoc =
         await _firestore.collection('users').doc(user.uid).get();
 
@@ -56,6 +54,15 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profile'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: ListView(
         children: [
           Padding(
@@ -94,10 +101,18 @@ class _ProfilePageState extends State<ProfilePage> {
             leading: const Icon(IconlyLight.bag),
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const OrdersPage(),
-                  ));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const OrdersPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text("Saved"),
+            leading: const Icon(IconlyLight.bookmark),
+            onTap: () {
+              // Handle the action when "Saved" is tapped
             },
           ),
           ListTile(
@@ -112,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => LandingPage()),
-                    (Route<dynamic> route) => false, // Removes all previous routes
+                    (Route<dynamic> route) => false,
               );
             },
           ),
@@ -121,7 +136,3 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-
-
-
-
