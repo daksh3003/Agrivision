@@ -1,6 +1,7 @@
 import 'package:agriplant/pages/home_page.dart';
 import 'package:agriplant/pages/seller/seller_home.dart';
 import 'package:agriplant/pages/signup_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -51,6 +52,25 @@ class _SampleLoginState extends State<LoginPage> {
 
     if (_formKey.currentState?.validate() ?? false) {
       try {
+
+        QuerySnapshot userQuery = await FirebaseFirestore.instance.collection('users').where('email',isEqualTo: email).get();
+        if(userQuery.docs.isEmpty){
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('User not found')),
+          );
+          return;
+        }
+        DocumentSnapshot userDoc = userQuery.docs.first;
+
+        String userType = userDoc.get('userType');
+
+        if(userType!=widget.userType){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('This email is associated with $userType. Please use the correct email to login'))
+          );
+          return;
+        }
+
         UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password,
