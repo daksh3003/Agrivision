@@ -9,7 +9,7 @@ class NewCartDetails {
 // Sample Data
 List<NewCartDetails> newCartDetails = [
   NewCartDetails(name: 'Rake',      image: "assets/rake.jpg", price: 29.99),
-  NewCartDetails(name: 'Product 2', image: "assets/services/seedlings.jpg", price: 19.99),
-  NewCartDetails(name: 'Product 3', image: 'assets/truck.jpg', price: 9.99),
-  NewCartDetails(name: 'Product 4', image: 'assets/farm.jpg', price: 49.99),
+  NewCartDetails(name: 'Product 2', image: "assets/services/machinery.jpg", price: 19.99),
+  NewCartDetails(name: 'Product 3', image: 'assets/shovel.jpg', price: 9.99),
+  NewCartDetails(name: 'Product 4', image: 'assets/pesti.jpg', price: 49.99),
 ];

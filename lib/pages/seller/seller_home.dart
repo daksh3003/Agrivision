@@ -1,6 +1,6 @@
 import 'package:agriplant/pages/cart_page.dart';
-import 'package:agriplant/pages/explore_page.dart';
 import 'package:agriplant/pages/profile_page.dart';
+import 'package:agriplant/pages/seller/seller_explore.dart';
 import 'package:agriplant/pages/services_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -13,7 +13,7 @@ class SellerHome extends StatefulWidget {
 }
 
 class _SellerHomeState extends State<SellerHome> {
-  final pages = [const ExplorePage(), const ServicesPage(), const CartPage()];
+  final pages = [const SellerExplore(), const CartPage(), const ServicesPage()];
   int currentPageIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -52,7 +52,7 @@ class _SellerHomeState extends State<SellerHome> {
               },
               icon: CircleAvatar(
                 radius: 24,
-                backgroundColor: Colors.green.shade100,
+                backgroundColor: Colors.green.shade50,
                 child: Icon(
                   IconlyBold.profile,
                   color: Colors.green.shade900,
@@ -79,14 +79,14 @@ class _SellerHomeState extends State<SellerHome> {
             activeIcon: Icon(IconlyBold.home),
           ),
           BottomNavigationBarItem(
-            icon: Icon(IconlyLight.call),
+            icon: Icon(Icons.store),
             label: "Marketplace",
-            activeIcon: Icon(IconlyBold.call),
+            activeIcon: Icon(Icons.store),
           ),
           BottomNavigationBarItem(
-            icon: Icon(IconlyLight.buy),
+            icon: Icon(Icons.group),
             label: "Community",
-            activeIcon: Icon(IconlyBold.buy),
+            activeIcon: Icon(Icons.group),
           )
         ],
       ),

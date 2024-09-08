@@ -17,7 +17,7 @@ class ProductDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(product.image),
+            Image.asset(product.image),
             const SizedBox(height: 20),
             Text(
               product.name,
