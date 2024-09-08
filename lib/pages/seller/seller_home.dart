@@ -7,6 +7,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:agriplant/pages/seller/seller_acccept_chat.dart';
 
 
 class SellerHome extends StatefulWidget {
@@ -21,7 +22,7 @@ class _HomePageState extends State<SellerHome> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String username = 'Loading...';
 
-  final pages = [const SellerExplore(), const CartPage(), const ServicesPage()];
+  final pages = [const SellerExplore(), const CartPage(),  SellerSidePage()];
 
   int currentPageIndex = 0;
 
