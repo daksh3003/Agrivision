@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:agriplant/newpages/Communty_page.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -20,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String username = 'Loading...';
 
-  final pages = [const ExplorePage(), const ServicesPage(), const CartPage(), const ProfilePage()];
+  final pages = [const ExplorePage(), const ServicesPage(), const CartPage(),   CommunityPage()];
 
   int currentPageIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
