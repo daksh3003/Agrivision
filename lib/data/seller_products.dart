@@ -1,7 +1,7 @@
-import '../models/product.dart';
+import '../models/seller_product.dart';
 
-List<Product> sellerProducts = [
-  const Product(
+List<SellerProduct> sellerProducts = [
+  const SellerProduct(
     name: "Sales Tips",
     description:
     """Crop Rotation: Crop rotation is a practice where different types of crops are planted in a sequence on the same field. This method helps in maintaining soil fertility, reducing soil erosion, and controlling pests and diseases. For example, planting legumes like beans or peas after cereal crops like wheat can replenish nitrogen levels in the soil, as legumes naturally fix atmospheric nitrogen. This reduces the need for chemical fertilizers, leading to healthier and more sustainable farming.
@@ -11,7 +11,7 @@ List<Product> sellerProducts = [
     unit: 'day(s)',
     rating: 4.35,
   ),
-  const Product(
+  const SellerProduct(
     name: "Pesticide Knowledge",
     description:
     """"Natural Pesticides: Using natural pesticides like neem oil or garlic spray can effectively control pests while minimizing harm to beneficial insects, soil organisms, and the environment. Neem oil works by disrupting the life cycle of pests, making it particularly effective against insects like aphids and whiteflies. Garlic spray, on the other hand, acts as a repellent against a wide range of pests, including caterpillars and beetles. These organic options not only protect your crops but also support sustainable farming practices.
@@ -23,7 +23,7 @@ Pesticide Safety and Best Practices: When using synthetic pesticides, it’s cru
     unit: 'kg',
     rating: 3.86,
   ),
-  const Product(
+  const SellerProduct(
     name: "Natural Soil Fertilization Methods",
     description:
     """" Green Manure: Green manure refers to crops that are specifically grown to be plowed back into the soil. Plants like clover, alfalfa, and rye are commonly used as green manure because they grow quickly and add valuable organic matter and nutrients to the soil. These cover crops can improve soil structure, increase moisture retention, and reduce erosion, making the soil more fertile for subsequent crops.
@@ -35,7 +35,7 @@ Encouraging Earthworms: Earthworms are often referred to as nature’s tillers. 
     unit: 'piece',
     rating: 4.18,
   ),
-  const Product(
+  const SellerProduct(
     name: "Crop Selection Based on Soil Type",
     description:
     """"Clay Soil: Clay soil is dense and heavy, with the ability to retain water, making it ideal for moisture-loving crops. Crops like broccoli, cabbage, and rice thrive in clay soils due to their ability to withstand waterlogged conditions. However, proper drainage management is essential to avoid root rot and ensure healthy plant growth.
@@ -46,7 +46,7 @@ Loamy Soil: Loamy soil is considered the best soil type for most crops due to it
     unit: 'kg',
     rating: 5.0,
   ),
-  const Product(
+  const SellerProduct(
     name: "Government Schemes and Subsidies",
     description:
     """" Pradhan Mantri Fasal Bima Yojana (PMFBY): This government-backed crop insurance scheme provides financial assistance to farmers in the event of crop failure due to natural disasters like floods, droughts, or pest attacks. The scheme covers a wide range of crops and ensures that farmers can recover from losses and continue their agricultural activities without falling into debt.
@@ -58,7 +58,7 @@ PM-Kisan Samman Nidhi: This direct income support scheme provides eligible farme
     unit: 'piece',
     rating: 5.0,
   ),
-  const Product(
+  const SellerProduct(
     name: "Farming Tools Knowledge",
 
     description:
@@ -71,7 +71,7 @@ Hand-Held Sprayer: For small to medium-sized farms, a hand-held sprayer is a pra
     rating: 3.22,
   ),
 
-  const Product(
+  const SellerProduct(
     name: "Daily Farming Updates",
     description:""" Weather Forecasts: Access to accurate and timely weather forecasts is crucial for effective farm management. By staying informed about upcoming weather conditions, farmers can plan their irrigation schedules, protect crops from extreme weather events, and optimize fieldwork for better productivity.
 Market Prices: Keeping track of daily market prices allows farmers to make informed decisions about when and where to sell their produce for the best returns. This information can help farmers avoid selling during periods of low prices and maximize their profits during high-demand seasons.

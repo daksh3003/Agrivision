@@ -1,4 +1,5 @@
 import 'package:agriplant/pages/home_page.dart';
+import 'package:agriplant/pages/seller/seller_home.dart';
 import 'package:agriplant/pages/signup_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -58,12 +59,22 @@ class _SampleLoginState extends State<LoginPage> {
 
         if (userCredential.user != null) {
           Navigator.popUntil(context, (route) => route.isFirst);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            ),
-          );
+          if(widget.userType == "Farmer"){
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomePage(),
+              ),
+            );
+          }
+          else if(widget.userType == "Seller"){
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SellerHome(),
+              ),
+            );
+          }
         }
       } on FirebaseAuthException catch (ex) {
         print('FirebaseAuthException: ${ex.code}');

@@ -1,12 +1,12 @@
-import 'package:agriplant/models/product.dart';
+import 'package:agriplant/models/seller_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import '../pages/product_details_page.dart';
+import '../pages/seller/seller_product_details.dart';
 
 class SellerCard extends StatelessWidget {
   const SellerCard({super.key, required this.product});
 
-  final Product product;
+  final SellerProduct product;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class SellerCard extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (_) => ProductDetailsPage(product: product)),
+              builder: (_) => SellerProductDetails(product: product)),
         );
       },
       child: Card(
