@@ -27,7 +27,7 @@ class _DetectionPageState extends State<DetectionPage> {
   Future<void> fetchPredictionData() async {
     try {
       final diseaseSnapshot = await FirebaseFirestore.instance
-          .collection('predictionss')
+          .collection('predictions')
           .where('disease', isEqualTo: widget.detectedDisease) // Use the detected disease directly
           .limit(1)
           .get();
