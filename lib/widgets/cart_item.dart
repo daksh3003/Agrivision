@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:agriplant/models/product.dart';
+import 'package:agriplant/models/marketplace.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 class CartItem extends StatelessWidget {
   const CartItem({super.key, required this.cartItem});
 
-  final Product cartItem;
+  final Marketplace cartItem;
 
   @override
   Widget build(BuildContext context) {

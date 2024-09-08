@@ -1,5 +1,5 @@
-import 'package:agriplant/pages/cart_page.dart';
 import 'package:agriplant/pages/explore_page.dart';
+import 'package:agriplant/pages/marketplace_page.dart';
 import 'package:agriplant/pages/profile_page.dart';
 import 'package:agriplant/pages/services_page.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String username = 'Loading...';
 
-  final pages = [const ExplorePage(), const ServicesPage(), const CartPage(),   CommunityPage()];
+  final pages = [const ExplorePage(), const ServicesPage(), const MarketplacePage(),   CommunityPage()];
 
   int currentPageIndex = 0;
 

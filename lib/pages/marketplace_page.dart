@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:agriplant/data/marketplace_data.dart';
-import 'package:agriplant/newpages/NewCartPage.dart';// Assuming this is the correct path
+import 'package:agriplant/newpages/NewCartPage.dart';
 
-class CartPage extends StatefulWidget {
-  const CartPage({super.key});
+class MarketplacePage extends StatefulWidget {
+  const MarketplacePage({super.key});
 
   @override
-  State<CartPage> createState() => _CartPageState();
+  State<MarketplacePage> createState() => _MarketplacePageState();
 }
 
-class _CartPageState extends State<CartPage> {
+class _MarketplacePageState extends State<MarketplacePage> {
   final cartItems = marketplaceData.toList(); // Use your newCartDetails list
 
   @override
@@ -21,11 +21,6 @@ class _CartPageState extends State<CartPage> {
         .toStringAsFixed(2);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("My Cart"),
-        centerTitle: true,
-        backgroundColor: Colors.green,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -91,28 +86,6 @@ class _CartPageState extends State<CartPage> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                const SizedBox(height: 5),
-                                // Product price
-                                Text(
-                                  "\$${cartItem.price.toStringAsFixed(2)}",
-                                  style: const TextStyle(
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                // Remove from cart button
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: IconButton(
-                                    icon: const Icon(Icons.remove_shopping_cart, color: Colors.red),
-                                    onPressed: () {
-                                      setState(() {
-                                        cartItems.removeAt(index); // Remove item from cart
-                                      });
-                                    },
-                                  ),
-                                ),
                               ],
                             ),
                           ),
@@ -121,41 +94,6 @@ class _CartPageState extends State<CartPage> {
                     ),
                   );
                 },
-              ),
-            ),
-            const SizedBox(height: 20),
-            // Total price section
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Total (${cartItems.length} items)",
-                  style: const TextStyle(fontSize: 16),
-                ),
-                Text(
-                  "\$$total",
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            // Proceed to checkout button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  // Proceed to checkout functionality
-                },
-                icon: const Icon(IconlyBold.arrowRight),
-                label: const Text("Proceed to Checkout"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                ),
               ),
             ),
           ],
