@@ -1,6 +1,5 @@
 import 'package:agriplant/models/marketplace.dart';
 import 'package:flutter/material.dart';
-import 'package:agriplant/data/marketplace_data.dart'; // Assuming this is the path
 
 class ProductDetailPage extends StatelessWidget {
   final Marketplace product; // Change the type to NewCartDetails
