@@ -2,81 +2,95 @@ import '../models/seller_product.dart';
 
 List<SellerProduct> sellerProducts = [
   const SellerProduct(
-    name: "Sales Tips",
+    name: "Benefits for Sellers",
     description:
-    """Crop Rotation: Crop rotation is a practice where different types of crops are planted in a sequence on the same field. This method helps in maintaining soil fertility, reducing soil erosion, and controlling pests and diseases. For example, planting legumes like beans or peas after cereal crops like wheat can replenish nitrogen levels in the soil, as legumes naturally fix atmospheric nitrogen. This reduces the need for chemical fertilizers, leading to healthier and more sustainable farming.
-"Efficient Water Management: Water is a critical resource for farming, and efficient management can greatly improve crop yields. Drip irrigation is a precise method that delivers water directly to the roots of plants, minimizing evaporation and runoff. This method not only conserves water but also ensures that crops receive a consistent supply of moisture, which is crucial during dry spells. Additionally, scheduling irrigation during cooler parts of the day (early morning or late evening) can further reduce water loss due to evaporation.""",
-    image: 'assets/farm.jpg',
+    """Direct Access to Farmers: Highlight how sellers can connect directly with local farmers to reduce middlemen and access fresh produce.
+Cost-Efficiency: Mention how the platform provides competitive prices due to the absence of intermediaries.
+Diverse Range of Products: Emphasize the availability of a wide range of fresh produce, grains, and farm products.
+Transparency and Quality Assurance: Guarantee that all products are fresh and meet certain quality standards.
+""",
+    image: 'assets/buying.png',
     price: 9.0,
     unit: 'day(s)',
     rating: 4.35,
   ),
   const SellerProduct(
-    name: "Pesticide Knowledge",
+    name: "How It Works",
     description:
-    """"Natural Pesticides: Using natural pesticides like neem oil or garlic spray can effectively control pests while minimizing harm to beneficial insects, soil organisms, and the environment. Neem oil works by disrupting the life cycle of pests, making it particularly effective against insects like aphids and whiteflies. Garlic spray, on the other hand, acts as a repellent against a wide range of pests, including caterpillars and beetles. These organic options not only protect your crops but also support sustainable farming practices.
-Integrated Pest Management (IPM): IPM is a holistic approach that combines multiple strategies to manage pests effectively. It includes using biological controls (like introducing natural predators), cultural practices (like crop rotation and intercropping), mechanical methods (like traps), and chemical controls (as a last resort). By combining these methods, farmers can reduce pest populations while minimizing the use of harmful pesticides, thereby promoting a healthier ecosystem.
-Pesticide Safety and Best Practices: When using synthetic pesticides, it’s crucial to follow safety guidelines to protect both yourself and the environment. Always read and adhere to the instructions on the label, use the recommended protective gear (such as gloves and masks), and apply the pesticide at the right time of day to minimize drift and evaporation. Proper storage and disposal of pesticides are also important to prevent contamination of water sources and harm to non-target species.
+    """A visual or text-based breakdown of how sellers can:
+Browse available farm products.
+Place bulk orders.
+Coordinate delivery or pick-up schedules with farmers.
+Track orders and manage payments.
  """,
-    image: 'assets/pesticide.jpg',
+    image: 'assets/howitworks.png',
     price: 9.99,
     unit: 'kg',
     rating: 3.86,
   ),
   const SellerProduct(
-    name: "Natural Soil Fertilization Methods",
+    name: " Categories",
     description:
-    """" Green Manure: Green manure refers to crops that are specifically grown to be plowed back into the soil. Plants like clover, alfalfa, and rye are commonly used as green manure because they grow quickly and add valuable organic matter and nutrients to the soil. These cover crops can improve soil structure, increase moisture retention, and reduce erosion, making the soil more fertile for subsequent crops.
-Bone Meal for Phosphorus: Bone meal is a natural fertilizer made from ground animal bones, rich in phosphorus, which is essential for strong root development and flowering in plants. Applying bone meal to your soil can help promote healthy root systems, improve nutrient uptake, and enhance overall plant growth. It’s especially useful in soils that are deficient in phosphorus and can be applied during planting or as a top dressing.
-Encouraging Earthworms: Earthworms are often referred to as nature’s tillers. They aerate the soil, improve drainage, and help decompose organic matter, turning it into nutrient-rich humus. You can encourage earthworm activity by maintaining organic matter in your soil, avoiding excessive tilling, and minimizing the use of chemical fertilizers and pesticides. A healthy earthworm population can significantly improve soil fertility and structure, leading to better crop yields.
-""",
-    image: 'assets/soil.jpg',
+    """Featured Product Listings: Show off the most popular items, such as seasonal fruits, vegetables, grains, dairy, or organic produce. Highlight these with brief descriptions, pricing details, and “Add to Cart” buttons.
+Category Filters: Allow sellers to browse by categories such as "Fruits," "Vegetables," "Organic Produce," "Dairy," and "Livestock." Make the filters easily accessible and visible on the page to streamline navigation.
+ This section acts like a mini marketplace on the home page, where sellers can get a taste of the product variety. Each product should have a clean, high-quality image, and prices should be clearly marked.""",
+    image: 'assets/freshproduce.png',
     price: 8.44,
     unit: 'piece',
     rating: 4.18,
   ),
   const SellerProduct(
-    name: "Crop Selection Based on Soil Type",
+    name: "Seller Testimonials",
     description:
-    """"Clay Soil: Clay soil is dense and heavy, with the ability to retain water, making it ideal for moisture-loving crops. Crops like broccoli, cabbage, and rice thrive in clay soils due to their ability to withstand waterlogged conditions. However, proper drainage management is essential to avoid root rot and ensure healthy plant growth.
-Sandy Soil: Sandy soil is light and drains quickly, which makes it suitable for crops that prefer well-drained conditions. Carrots, potatoes, and peanuts are examples of crops that perform well in sandy soils. To improve water retention in sandy soil, adding organic matter like compost can be beneficial. Sandy soils also warm up quickly in the spring, giving early crops an advantage.
-Loamy Soil: Loamy soil is considered the best soil type for most crops due to its balanced texture, which provides good drainage while retaining adequate moisture and nutrients. Crops like tomatoes, lettuce, and corn thrive in loamy soils because of their need for a consistent supply of water and nutrients. Loamy soil is easy to work with and is ideal for vegetable gardening and mixed cropping. """,
-    image: 'assets/crop.jpg',
+    """Testimonials from existing sellers can be powerful in building trust. Feature quotes from satisfied users who highlight the quality of the produce, ease of use, and reliability of the platform.
+Design Tip: Pair each testimonial with a small image of the seller (or store) and their name, business name, and location to make the feedback more relatable and authentic """,
+    image: 'assets/sellertestimonial.jpg',
     price: 14.52,
     unit: 'kg',
     rating: 5.0,
   ),
   const SellerProduct(
-    name: "Government Schemes and Subsidies",
+    name: "Special Offers and Discounts",
     description:
-    """" Pradhan Mantri Fasal Bima Yojana (PMFBY): This government-backed crop insurance scheme provides financial assistance to farmers in the event of crop failure due to natural disasters like floods, droughts, or pest attacks. The scheme covers a wide range of crops and ensures that farmers can recover from losses and continue their agricultural activities without falling into debt.
-Kisan Credit Card (KCC): The Kisan Credit Card scheme offers farmers access to affordable credit, which they can use to meet their agricultural needs, such as buying seeds, fertilizers, and equipment. The loans under this scheme are offered at low-interest rates, making it easier for farmers to invest in their farms and improve productivity without financial strain.
-PM-Kisan Samman Nidhi: This direct income support scheme provides eligible farmers with ₹6,000 per year in three equal installments. The funds are directly transferred to the farmer's bank account, helping them cover basic expenses, invest in their farms, and support their families. This scheme aims to provide financial stability to small and marginal farmers across the country.
+    """Entice sellers with promotions such as bulk purchase discounts, seasonal offers, or reduced delivery fees for first-time users. Include a countdown timer or banner for time-limited offers to create urgency.
 .""""",
-    image: 'assets/subsidy.png',
+    image: 'assets/Discount.png',
     price: 14.77,
     unit: 'piece',
     rating: 5.0,
   ),
   const SellerProduct(
-    name: "Farming Tools Knowledge",
+    name: "Sustainability & Local Support",
 
     description:
-    """ Seed Drill: A seed drill is an essential tool for modern farming that ensures even distribution of seeds at the correct depth, leading to uniform germination and better crop yields. By planting seeds in well-spaced rows, the seed drill reduces seed wastage and allows for easier weeding and irrigation. This tool is particularly beneficial for large-scale farmers looking to increase efficiency and productivity.
-Rotavator: The rotavator is a versatile soil preparation tool that breaks up and tills the soil to a fine consistency, making it ready for sowing seeds. It helps in weed control and mixes crop residues into the soil, improving its organic content. Using a rotavator can significantly reduce the time and labor required for soil preparation, making it a valuable tool for both small and large farms.
-Hand-Held Sprayer: For small to medium-sized farms, a hand-held sprayer is a practical tool for applying pesticides, herbicides, and fertilizers evenly across the field. These sprayers are lightweight, easy to operate, and allow for precise application, reducing the amount of chemicals used and minimizing environmental impact.""",
-    image: 'assets/farmTool.jpg',
+    """Emphasize the impact that sellers have by supporting local farmers. Focus on how sourcing products locally not only ensures freshness but also helps reduce the carbon footprint and supports sustainable farming practices""",
+    image: 'assets/supportfarmers.jpg',
     price: 6.84,
     unit: 'kg',
     rating: 3.22,
   ),
 
   const SellerProduct(
-    name: "Daily Farming Updates",
-    description:""" Weather Forecasts: Access to accurate and timely weather forecasts is crucial for effective farm management. By staying informed about upcoming weather conditions, farmers can plan their irrigation schedules, protect crops from extreme weather events, and optimize fieldwork for better productivity.
-Market Prices: Keeping track of daily market prices allows farmers to make informed decisions about when and where to sell their produce for the best returns. This information can help farmers avoid selling during periods of low prices and maximize their profits during high-demand seasons.
-Agricultural News and Trends: Stay updated with the latest developments in the agricultural sector, including new government policies, innovative farming techniques, and emerging market trends. This knowledge can help farmers stay competitive, adopt new technologies, and take advantage of available opportunities to improve their farming practices.""",
-    image: 'assets/updatesfarm.jpg',
+    name: " FAQs",
+    description:"""Anticipate common questions sellers might have about the platform. Cover topics such as:
+Delivery options
+Payment methods
+How to handle product returns
+Minimum order quantities""",
+    image: 'assets/FAQs.png',
+    price: 6.84,
+    unit: 'kg',
+    rating: 3.22,
+  ),
+
+  const SellerProduct(
+    name: "Contact Information and Support",
+    description:"""Provide sellers with multiple ways to get in touch for assistance. Include:
+A live chat option for immediate support
+A dedicated support email address
+A phone number for direct inquiries
+A contact form""",
+    image: 'assets/CustomerService.png',
     price: 6.84,
     unit: 'kg',
     rating: 3.22,
