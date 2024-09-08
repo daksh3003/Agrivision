@@ -1,20 +1,61 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class DetectionPage extends StatelessWidget {
+class DetectionPage extends StatefulWidget {
   final String serviceName; // The name of the service/crop selected
 
   DetectionPage({required this.serviceName});
 
-  // Dummy data for demonstration purposes
-  final String diseaseResult = "Late Blight";
-  final List<String> solutions = [
-    "Use fungicide to control the disease.",
-    "Remove infected plants from the field.",
-    "Ensure good air circulation around the crops.",
-    "Avoid overhead irrigation."
-  ];
-  final String youtubeUrl = "https://www.youtube.com/watch?v=G8yKFVPOD-4"; // Dummy YouTube URL
+  @override
+  _DetectionPageState createState() => _DetectionPageState();
+}
+
+class _DetectionPageState extends State<DetectionPage> {
+  String diseaseResult = "";
+  String solution = "";
+  String youtubeUrl = "";
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPredictionData();
+  }
+
+  Future<void> fetchPredictionData() async {
+    try {
+      final predictionSnapshot = await FirebaseFirestore.instance
+          .collection('predictions')
+          .where('plant', isEqualTo: widget.serviceName)
+          .limit(1)
+          .get();
+
+      if (predictionSnapshot.docs.isNotEmpty) {
+        final predictionData = predictionSnapshot.docs.first.data();
+
+        diseaseResult = predictionData['disease'] ?? '';
+
+        final diseaseSnapshot = await FirebaseFirestore.instance
+            .collection('diseases')
+            .where('diseaseName', isEqualTo: diseaseResult)
+            .limit(1)
+            .get();
+
+        if (diseaseSnapshot.docs.isNotEmpty) {
+          final diseaseData = diseaseSnapshot.docs.first.data();
+          solution = diseaseData['solution'] ?? "";
+          youtubeUrl = diseaseData['ytlink'] ?? "";
+        }
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,17 +64,20 @@ class DetectionPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('$serviceName Detection Result'),
+        title: Text('${widget.serviceName} Detection Result'),
       ),
-      body: Padding(
+      body: isLoading
+          ? Center(child: CircularProgressIndicator()) // Show loading indicator while fetching data
+          : Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Detected Disease for $serviceName:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                'Detected Disease for ${widget.serviceName}:',
+                style:
+                TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
               Text(
@@ -43,23 +87,26 @@ class DetectionPage extends StatelessWidget {
               SizedBox(height: 20),
               Text(
                 'Possible Solutions:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
-              ...solutions.map((solution) => Padding(
+              Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Text(
-                  "- $solution",
+                  solution,
                   style: TextStyle(fontSize: 16),
                 ),
-              )),
+              ),
               SizedBox(height: 20),
               Text(
                 'Watch the video for more solutions:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
-              YoutubePlayer(
+              youtubeUrl.isNotEmpty
+                  ? YoutubePlayer(
                 controller: YoutubePlayerController(
                   initialVideoId: videoId,
                   flags: YoutubePlayerFlags(
@@ -69,7 +116,8 @@ class DetectionPage extends StatelessWidget {
                 ),
                 showVideoProgressIndicator: true,
                 progressIndicatorColor: Colors.redAccent,
-              ),
+              )
+                  : Text('No video available.'),
             ],
           ),
         ),

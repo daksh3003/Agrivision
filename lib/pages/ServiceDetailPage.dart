@@ -20,7 +20,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
   String? _prediction;
 
   // The address of the Flask server
-  final String serverUrl = 'http://172.20.26.58:8080/predict';
+  final String serverUrl = 'http://10.0.2.2:8080/predict';
 
     // Function to pick an image from the gallery
   Future<void> _pickImageFromGallery() async {
