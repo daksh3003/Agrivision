@@ -1,6 +1,6 @@
-import 'package:agriplant/pages/signup_page_old.dart';
+import 'package:agriplant/old/signup_page_old.dart';
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import '../pages/home_page.dart';
 
 class LoginPageOld extends StatefulWidget {
   final String userType;

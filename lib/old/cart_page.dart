@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:agriplant/data/marketplace_data.dart';
-import 'package:agriplant/newpages/NewCartPage.dart';// Assuming this is the correct path
+import 'package:agriplant/newpages/marketplace_product_page.dart';// Assuming this is the correct path
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -47,7 +47,7 @@ class _CartPageState extends State<CartPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProductDetailPage(product: cartItem),
+                          builder: (context) => MarketplaceProductPage(product: cartItem),
                         ),
                       );
                     },

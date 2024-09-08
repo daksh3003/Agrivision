@@ -34,7 +34,7 @@ flutter:
     - assets/
     - assets/logo.png
     - assets/social.png
-    - assets/images/
+    - assets/marketplace/
     - assets/services/
     - shorebird.yaml
     - assets/rake.jpg
