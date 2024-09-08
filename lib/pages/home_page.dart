@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+<<<<<<< HEAD
+import 'package:agriplant/newpages/Communty_page.dart';
+=======
 import 'package:badges/badges.dart' as badges;
+>>>>>>> 20375bb0650fbf6e5cd1c8f5e041fcfc2f5d98bc
 
 
 class HomePage extends StatefulWidget {
@@ -21,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String username = 'Loading...';
 
-  final pages = [const ExplorePage(), const ServicesPage(), const CartPage(), const ProfilePage()];
+  final pages = [const ExplorePage(), const ServicesPage(), const CartPage(),   CommunityPage()];
 
   int currentPageIndex = 0;
 
