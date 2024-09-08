@@ -1,8 +1,9 @@
+import 'package:agriplant/models/marketplace.dart';
 import 'package:flutter/material.dart';
-import 'package:agriplant/data/newcartdetails.dart'; // Assuming this is the path
+import 'package:agriplant/data/marketplace_data.dart'; // Assuming this is the path
 
 class ProductDetailPage extends StatelessWidget {
-  final NewCartDetails product; // Change the type to NewCartDetails
+  final Marketplace product; // Change the type to NewCartDetails
 
   const ProductDetailPage({super.key, required this.product});
 
@@ -29,7 +30,9 @@ class ProductDetailPage extends StatelessWidget {
               style: const TextStyle(fontSize: 20, color: Colors.green),
             ),
             const SizedBox(height: 20),
-            const Text("Product details will go here"),
+            Text(
+                product.description
+            ),
           ],
         ),
       ),
