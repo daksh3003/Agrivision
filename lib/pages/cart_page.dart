@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:agriplant/data/newcartdetails.dart';
+import 'package:agriplant/data/marketplace_data.dart';
 import 'package:agriplant/newpages/NewCartPage.dart';// Assuming this is the correct path
 
 class CartPage extends StatefulWidget {
@@ -11,7 +11,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  final cartItems = newCartDetails.take(4).toList(); // Use your newCartDetails list
+  final cartItems = marketplaceData.toList(); // Use your newCartDetails list
 
   @override
   Widget build(BuildContext context) {

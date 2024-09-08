@@ -1,55 +1,100 @@
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: CommunityPage(),
+    );
+  }
+}
 
 class CommunityPage extends StatefulWidget {
-  CommunityPage({Key? key}) : super(key: key); // Constructor
-
   @override
   _CommunityPageState createState() => _CommunityPageState();
 }
-
 
 class _CommunityPageState extends State<CommunityPage> {
   final TextEditingController _questionController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   File? _selectedImage;
 
-  // Simulated posts data
-  List<Map<String, dynamic>> posts = [];
-
   // Function to pick image
   Future<void> _pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _selectedImage = File(pickedFile.path);
-      });
+    try {
+      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          _selectedImage = File(pickedFile.path);
+        });
+      }
+    } catch (e) {
+      print('Error picking image: $e');
     }
   }
 
   // Function to post question
-  void _postQuestion() {
+  Future<void> _postQuestion() async {
     if (_questionController.text.isEmpty && _selectedImage == null) return;
 
-    setState(() {
-      posts.add({
-        'question': _questionController.text,
-        'image': _selectedImage,
+    try {
+      String? imageUrl;
+      if (_selectedImage != null) {
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('community_images/${DateTime.now().millisecondsSinceEpoch}');
+
+        final uploadTask = storageRef.putFile(_selectedImage!);
+
+        // Handle upload progress
+        uploadTask.snapshotEvents.listen((event) {
+          print('Progress: ${event.bytesTransferred}/${event.totalBytes}');
+        }).onError((error) {
+          print('Upload error: $error');
+        });
+
+        final snapshot = await uploadTask;
+        if (snapshot.state == TaskState.success) {
+          imageUrl = await snapshot.ref.getDownloadURL();
+        } else {
+          print('Upload failed: ${snapshot.state}');
+        }
+      }
+
+      String userId = FirebaseAuth.instance.currentUser?.uid ?? 'Anonymous';
+
+      await FirebaseFirestore.instance.collection('community').add({
+        'userId': userId,
+        'question': _questionController.text.trim(),
+        'imageUrl': imageUrl,
+        'timestamp': FieldValue.serverTimestamp(),
         'comments': []
       });
-      _questionController.clear();
-      _selectedImage = null;
-    });
+
+      setState(() {
+        _questionController.clear();
+        _selectedImage = null;
+      });
+    } catch (e) {
+      print('Error posting question: $e');
+    }
   }
 
-  // Function to add comment
-  void _addComment(int postIndex, String comment) {
-    setState(() {
-      posts[postIndex]['comments'].add(comment);
-    });
+  // Function to fetch community posts from Firestore
+  Stream<QuerySnapshot> _getCommunityPosts() {
+    return FirebaseFirestore.instance.collection('community').orderBy('timestamp', descending: true).snapshots();
   }
 
   @override
@@ -60,7 +105,6 @@ class _CommunityPageState extends State<CommunityPage> {
       ),
       body: Column(
         children: [
-          // Post question section
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -98,50 +142,64 @@ class _CommunityPageState extends State<CommunityPage> {
               ],
             ),
           ),
-          const Divider(),
-
-          // Display questions and comments
+          const Divider(
+          ),
+          Column(
+            children:[Text('Previously asked Questions',textAlign: TextAlign.center)]
+          ),
           Expanded(
-            child: ListView.builder(
-              itemCount: posts.length,
-              itemBuilder: (context, index) {
-                final post = posts[index];
-                return Card(
-                  margin: const EdgeInsets.all(8.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(post['question'] ?? '',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        if (post['image'] != null)
-                          Image.file(
-                            post['image'],
-                            width: 100,
-                            height: 100,
-                          ),
-                        const SizedBox(height: 8.0),
-                        // Display comments
-                        ListView.builder(
-                          itemCount: post['comments'].length,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, commentIndex) {
-                            return ListTile(
-                              title: Text(post['comments'][commentIndex]),
-                            );
-                          },
+            child: StreamBuilder<QuerySnapshot>(
+              stream: _getCommunityPosts(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Center(child: Text('No questions posted yet.'));
+                }
+                final posts = snapshot.data!.docs;
+
+                return ListView.builder(
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) {
+                    final post = posts[index].data() as Map<String, dynamic>;
+                    final postId = posts[index].id;
+                    return Card(
+                      margin: const EdgeInsets.all(8.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(post['question'] ?? '',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            if (post['imageUrl'] != null)
+                              Image.network(
+                                post['imageUrl'],
+                                width: 100,
+                                height: 100,
+                              ),
+                            const SizedBox(height: 8.0),
+                            ListView.builder(
+                              itemCount: post['comments'].length,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, commentIndex) {
+                                return ListTile(
+                                  title: Text(post['comments'][commentIndex]),
+                                );
+                              },
+                            ),
+                            const Divider(),
+                            CommentSection(
+                              postId: postId,
+                              addComment: _addComment,
+                            ),
+                          ],
                         ),
-                        const Divider(),
-                        // Add a comment section
-                        CommentSection(
-                          postIndex: index,
-                          addComment: _addComment,
-                        ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  },
                 );
               },
             ),
@@ -150,13 +208,24 @@ class _CommunityPageState extends State<CommunityPage> {
       ),
     );
   }
+
+  // Function to add comment
+  Future<void> _addComment(String postId, String comment) async {
+    try {
+      await FirebaseFirestore.instance.collection('community').doc(postId).update({
+        'comments': FieldValue.arrayUnion([comment])
+      });
+    } catch (e) {
+      print('Error adding comment: $e');
+    }
+  }
 }
 
 class CommentSection extends StatefulWidget {
-  final int postIndex;
-  final Function(int, String) addComment;
+  final String postId;
+  final Function(String, String) addComment;
 
-  CommentSection({required this.postIndex, required this.addComment});
+  CommentSection({required this.postId, required this.addComment});
 
   @override
   _CommentSectionState createState() => _CommentSectionState();
@@ -181,7 +250,7 @@ class _CommentSectionState extends State<CommentSection> {
         IconButton(
           icon: Icon(Icons.send),
           onPressed: () {
-            widget.addComment(widget.postIndex, _commentController.text);
+            widget.addComment(widget.postId, _commentController.text);
             _commentController.clear();
           },
         ),
