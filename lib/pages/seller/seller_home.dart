@@ -4,37 +4,83 @@ import 'package:agriplant/pages/seller/seller_explore.dart';
 import 'package:agriplant/pages/services_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:badges/badges.dart' as badges;
+
 
 class SellerHome extends StatefulWidget {
   const SellerHome({super.key});
 
   @override
-  State<SellerHome> createState() => _SellerHomeState();
+  State<SellerHome> createState() => _HomePageState();
 }
 
-class _SellerHomeState extends State<SellerHome> {
+class _HomePageState extends State<SellerHome> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  String username = 'Loading...';
+
   final pages = [const SellerExplore(), const CartPage(), const ServicesPage()];
+
   int currentPageIndex = 0;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState(){
+    super.initState();
+    _fetchUserName();
+  }
+
+  Future<void> _fetchUserName() async {
+    try{
+      User? user = _auth.currentUser;
+      if(user != null){
+        DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
+        if(userDoc.exists) {
+          setState(() {
+            username = userDoc['name'] ?? 'No name';
+          });
+        } else {
+          setState(() {
+            username = 'unknown user';
+          });
+        }
+      }
+    } catch(e) {
+      print('error fetching user data');
+      setState(() {
+        username = 'Error Loading Name';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      drawer: const Drawer(),
       appBar: AppBar(
         centerTitle: false,
-        leading: IconButton.filledTonal(
+        leading: IconButton(
           onPressed: () {
-            _scaffoldKey.currentState?.openDrawer();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProfilePage()),
+            );
           },
-          icon: const Icon(Icons.menu),
+          icon: CircleAvatar(
+            radius: 24,
+            backgroundColor: Colors.green.shade50,
+            child: Icon(
+              IconlyBold.profile,
+              color: Colors.green.shade900,
+              size: 22,
+            ),
+          ),
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Hi Wilson 👋🏾",
+              "Hi $username👋🏾",
               style: Theme.of(context).textTheme.titleMedium,
             ),
             Text("Enjoy our services", style: Theme.of(context).textTheme.bodySmall)
@@ -43,21 +89,21 @@ class _SellerHomeState extends State<SellerHome> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ProfilePage()),
-                );
-              },
-              icon: CircleAvatar(
-                radius: 24,
-                backgroundColor: Colors.green.shade50,
-                child: Icon(
-                  IconlyBold.profile,
-                  color: Colors.green.shade900,
-                  size: 22,
+            child: IconButton.filledTonal(
+              onPressed: () {},
+              icon: badges.Badge(
+                badgeContent: const Text(
+                  '3',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                  ),
                 ),
+                position: badges.BadgePosition.topEnd(top: -15, end: -12),
+                badgeStyle: const badges.BadgeStyle(
+                  badgeColor: Colors.green,
+                ),
+                child: const Icon(IconlyBroken.notification),
               ),
             ),
           ),
@@ -87,7 +133,7 @@ class _SellerHomeState extends State<SellerHome> {
             icon: Icon(Icons.group),
             label: "Community",
             activeIcon: Icon(Icons.group),
-          )
+          ),
         ],
       ),
     );
