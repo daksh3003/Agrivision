@@ -131,9 +131,9 @@ class _HomePageState extends State<SellerHome> {
             activeIcon: Icon(Icons.store),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group),
+            icon: Icon(Icons.chat),
             label: "Chat",
-            activeIcon: Icon(Icons.group),
+            activeIcon: Icon(Icons.chat),
           ),
         ],
       ),

@@ -1,10 +1,10 @@
 import 'package:agriplant/models/marketplace.dart';
 import 'package:flutter/material.dart';
 
-class ProductDetailPage extends StatelessWidget {
+class MarketplaceProductPage extends StatelessWidget {
   final Marketplace product; // Change the type to NewCartDetails
 
-  const ProductDetailPage({super.key, required this.product});
+  const MarketplaceProductPage({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
