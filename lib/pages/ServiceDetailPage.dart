@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:agriplant/data/services.dart';
 import 'package:agriplant/pages/detection_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,9 +20,9 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
   String? _prediction;
 
   // The address of the Flask server
-  final String serverUrl = 'http://172.20.26.58:8080/predict'; // Update with your Flask server address
+  final String serverUrl = 'http://172.20.26.58:8080/predict';
 
-  // Function to pick an image from the gallery
+    // Function to pick an image from the gallery
   Future<void> _pickImageFromGallery() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -58,7 +59,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DetectionPage(),
+          builder: (context) => DetectionPage(serviceName: widget.serviceName,),
         ),
       );
     } else {

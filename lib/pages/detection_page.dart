@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DetectionPage extends StatelessWidget {
-  // Dummy data
+  final String serviceName; // The name of the service/crop selected
+
+  DetectionPage({required this.serviceName});
+
+  // Dummy data for demonstration purposes
   final String diseaseResult = "Late Blight";
   final List<String> solutions = [
     "Use fungicide to control the disease.",
@@ -19,7 +23,7 @@ class DetectionPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Disease Detection Result'),
+        title: Text('$serviceName Detection Result'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -28,7 +32,7 @@ class DetectionPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Detected Disease:',
+                'Detected Disease for $serviceName:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
