@@ -19,7 +19,7 @@ dependencies:
   firebase_core: ^2.24.2
   firebase_auth: ^4.16.0
   cloud_firestore: ^4.14.0
-  firebase_storage: ^11.2.0
+  flutter_localization: ^0.2.2
 
 dev_dependencies:
   flutter_test:
@@ -35,7 +35,6 @@ flutter:
     - assets/social.png
     - assets/images/
     - assets/services/
-    - assets/marketplace/
     - shorebird.yaml
     - assets/rake.jpg
     - assets/truck.jpg

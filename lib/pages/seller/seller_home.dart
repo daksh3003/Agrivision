@@ -131,7 +131,7 @@ class _HomePageState extends State<SellerHome> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.group),
-            label: "Community",
+            label: "Chat",
             activeIcon: Icon(Icons.group),
           ),
         ],
