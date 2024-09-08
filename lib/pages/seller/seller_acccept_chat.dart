@@ -7,8 +7,8 @@ class SellerSidePage extends StatefulWidget {
 
 class _SellerSidePageState extends State<SellerSidePage> {
   final List<Map<String, dynamic>> orders = [
-    {"farmerName": "Farmer A", "order": "Order 1", "accepted": false, "profilePic": "https://via.placeholder.com/150"},
-    {"farmerName": "Farmer B", "order": "Order 2", "accepted": false, "profilePic": "https://via.placeholder.com/150"},
+    {"farmerName": "Farmer A", "order": "Order 1", "accepted": false, "profilePic": "https://media.istockphoto.com/id/1412751704/photo/female-farmer-is-holding-a-digital-tablet-in-a-farm-field-smart-farming.jpg?s=612x612&w=0&k=20&c=ip06mZA-0nloTCIeoxhabfsoTedXen14zRh8l9gLVnU="},
+    {"farmerName": "Farmer B", "order": "Order 2", "accepted": false, "profilePic": "https://plus.unsplash.com/premium_photo-1682092016074-b136e1acb26e?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW5kaWFuJTIwZmFybWVyfGVufDB8fDB8fHww"},
   ];
 
   void _acceptOrder(int index) {
