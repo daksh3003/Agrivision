@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:agriplant/pages/detection_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -18,7 +19,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
   String? _prediction;
 
   // The address of the Flask server
-  final String serverUrl = 'http://192.168.191.101:8080/predict'; // Update with your Flask server address
+  final String serverUrl = 'http://172.20.26.58:8080/predict'; // Update with your Flask server address
 
   // Function to pick an image from the gallery
   Future<void> _pickImageFromGallery() async {
@@ -54,7 +55,12 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
       setState(() {
         _prediction = responseData['prediction'];
       });
-      print(_prediction);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetectionPage(),
+        ),
+      );
     } else {
       print('Failed to upload image');
     }
@@ -141,9 +147,10 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                       if (_image != null) {
                         _uploadImage(_image!);
                       }
+                      //TODO navigate to detection page with value of the service
                     },
                     icon: const Icon(Icons.upload),
-                    label: const Text('Upload Image to Server'),
+                    label: const Text('Detect'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orange, // Button color
                       foregroundColor: Colors.white, // Text color
