@@ -25,11 +25,12 @@ class ServicesPage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ServiceDetailPage(
-                    serviceName: services[index].name,
-                    // Remove serviceImage parameter
+                    serviceName: "Example Service", // Provide a valid service name
+                    detectedDisease: "No Disease Detected", // Provide a valid initial value or an empty string
                   ),
                 ),
               );
+
             },
             child: Container(
               alignment: Alignment.bottomCenter,

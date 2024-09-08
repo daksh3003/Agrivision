@@ -4,8 +4,9 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DetectionPage extends StatefulWidget {
   final String serviceName; // The name of the service/crop selected
+  final String detectedDisease; // The detected disease passed from the ServiceDetailPage
 
-  DetectionPage({required this.serviceName});
+  DetectionPage({required this.serviceName, required this.detectedDisease});
 
   @override
   _DetectionPageState createState() => _DetectionPageState();
@@ -25,28 +26,16 @@ class _DetectionPageState extends State<DetectionPage> {
 
   Future<void> fetchPredictionData() async {
     try {
-      final predictionSnapshot = await FirebaseFirestore.instance
-          .collection('predictions')
-          .where('plant', isEqualTo: widget.serviceName)
+      final diseaseSnapshot = await FirebaseFirestore.instance
+          .collection('predictionss')
+          .where('disease', isEqualTo: widget.detectedDisease) // Use the detected disease directly
           .limit(1)
           .get();
 
-      if (predictionSnapshot.docs.isNotEmpty) {
-        final predictionData = predictionSnapshot.docs.first.data();
-
-        diseaseResult = predictionData['disease'] ?? '';
-
-        final diseaseSnapshot = await FirebaseFirestore.instance
-            .collection('diseases')
-            .where('diseaseName', isEqualTo: diseaseResult)
-            .limit(1)
-            .get();
-
-        if (diseaseSnapshot.docs.isNotEmpty) {
-          final diseaseData = diseaseSnapshot.docs.first.data();
-          solution = diseaseData['solution'] ?? "";
-          youtubeUrl = diseaseData['ytlink'] ?? "";
-        }
+      if (diseaseSnapshot.docs.isNotEmpty) {
+        final diseaseData = diseaseSnapshot.docs.first.data();
+        solution = diseaseData['solution'] ?? "";
+        youtubeUrl = diseaseData['ytlink'] ?? "";
       }
     } catch (e) {
       print('Error fetching data: $e');
@@ -81,7 +70,7 @@ class _DetectionPageState extends State<DetectionPage> {
               ),
               SizedBox(height: 10),
               Text(
-                diseaseResult,
+                widget.detectedDisease,
                 style: TextStyle(fontSize: 16, color: Colors.redAccent),
               ),
               SizedBox(height: 20),
