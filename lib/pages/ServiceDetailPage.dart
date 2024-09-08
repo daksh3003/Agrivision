@@ -8,8 +8,9 @@ import 'dart:convert';
 
 class ServiceDetailPage extends StatefulWidget {
   final String serviceName;
+  final String detectedDisease;
 
-  const ServiceDetailPage({super.key, required this.serviceName});
+  const ServiceDetailPage({super.key, required this.serviceName, required this.detectedDisease});
 
   @override
   _ServiceDetailPageState createState() => _ServiceDetailPageState();
@@ -20,9 +21,9 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
   String? _prediction;
 
   // The address of the Flask server
-  final String serverUrl = 'http://10.0.2.2:8080/predict';
+  final String serverUrl = 'http://192.168.191.101:8080/predict';
 
-    // Function to pick an image from the gallery
+  // Function to pick an image from the gallery
   Future<void> _pickImageFromGallery() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -56,10 +57,14 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
       setState(() {
         _prediction = responseData['prediction'];
       });
+      // Pass the prediction to the DetectionPage
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DetectionPage(serviceName: widget.serviceName,),
+          builder: (context) => DetectionPage(
+            serviceName: widget.serviceName,
+            detectedDisease: _prediction ?? '',  // Pass the detected disease
+          ),
         ),
       );
     } else {
@@ -109,8 +114,8 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                   icon: const Icon(Icons.photo),
                   label: const Text('Upload from Gallery'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue, // Button color
-                    foregroundColor: Colors.white, // Text color
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -128,8 +133,8 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                   icon: const Icon(Icons.camera),
                   label: const Text('Open Camera'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green, // Button color
-                    foregroundColor: Colors.white, // Text color
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -148,13 +153,12 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                       if (_image != null) {
                         _uploadImage(_image!);
                       }
-                      //TODO navigate to detection page with value of the service
                     },
                     icon: const Icon(Icons.upload),
                     label: const Text('Detect'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange, // Button color
-                      foregroundColor: Colors.white, // Text color
+                      backgroundColor: Colors.orange,
+                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
