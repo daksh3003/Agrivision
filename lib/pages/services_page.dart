@@ -25,7 +25,7 @@ class ServicesPage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ServiceDetailPage(
-                    serviceName: "Example Service", // Provide a valid service name
+                    serviceName: services[index].name, // Provide a valid service name
                     detectedDisease: "No Disease Detected", // Provide a valid initial value or an empty string
                   ),
                 ),
