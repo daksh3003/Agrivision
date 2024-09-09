@@ -6,12 +6,12 @@ List<Service> services = [
     image: "assets/services/corn.jpg",
   ),
   const Service(
-    name: "Seedlings",
-    image: "assets/services/seedlings.jpg",
+    name: "Wheat",
+    image: "assets/marketplace/wheat.jpg",
   ),
   const Service(
-    name: "Machinery",
-    image: "assets/services/machinery.jpg",
+    name: "Cotton",
+    image: "assets/marketplace/cotton.jpg",
   ),
   const Service(
     name: "Hire Worker",
