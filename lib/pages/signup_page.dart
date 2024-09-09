@@ -17,6 +17,7 @@ class _SampleSignupState extends State<SignUpPage> {
   // Controllers for text fields
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
@@ -27,9 +28,14 @@ class _SampleSignupState extends State<SignUpPage> {
   // Variables to track validation status
   bool _isNameValid = false;
   bool _isEmailValid = false;
+  bool _isPhoneValid = false;
 
   // Regular expression for email validation
   final emailRegExp = RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+$');
+
+  // Regular expression for Phone Number validation
+  final phoneRegExp = RegExp(r'^[1-9]\d{9}$');
+
 
   // Real-time validation for the Name field
   void _validateName(String value) {
@@ -42,6 +48,13 @@ class _SampleSignupState extends State<SignUpPage> {
   void _validateEmail(String value) {
     setState(() {
       _isEmailValid = emailRegExp.hasMatch(value);
+    });
+  }
+
+  // Real-time validation for the Phone Number field
+  void _validatePhone(String value) {
+    setState(() {
+      _isPhoneValid = phoneRegExp.hasMatch(value);
     });
   }
 
@@ -181,6 +194,28 @@ class _SampleSignupState extends State<SignUpPage> {
                             validator: (value) {
                               if (value == null || value.isEmpty || !emailRegExp.hasMatch(value)) {
                                 return 'Please enter a valid email';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 20),
+                          // Name Field with Real-Time Validation and Validator
+                          TextFormField(
+                            controller: _phoneController,
+                            onChanged: _validatePhone, // Real-time validation
+                            decoration: InputDecoration(
+                              suffixIcon: _isPhoneValid
+                                  ? const Icon(Icons.check, color: Colors.green)
+                                  : null,
+                              labelText: 'Phone Number',
+                              labelStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty || value.length < 10) {
+                                return 'Please enter a valid phone number';
                               }
                               return null;
                             },

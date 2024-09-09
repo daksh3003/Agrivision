@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:agriplant/pages/detection_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -6,8 +7,13 @@ import 'dart:convert';
 
 class ServiceDetailPage extends StatefulWidget {
   final String serviceName;
+  final String detectedDisease;
 
-  const ServiceDetailPage({super.key, required this.serviceName});
+  const ServiceDetailPage({
+    super.key,
+    required this.serviceName,
+    required this.detectedDisease,
+  });
 
   @override
   _ServiceDetailPageState createState() => _ServiceDetailPageState();
@@ -16,9 +22,29 @@ class ServiceDetailPage extends StatefulWidget {
 class _ServiceDetailPageState extends State<ServiceDetailPage> {
   File? _image;
   String? _prediction;
+  bool _isLoading = false; // Track loading state
 
-  // The address of the Flask server
-  final String serverUrl = 'http://192.168.191.101:8080/predict'; // Update with your Flask server address
+  // List of server URLs corresponding to different services
+  final List<String> serverUrls = [
+    'http://192.168.191.101:8000/predict',  // URL for Cotton service
+    'http://192.168.191.101:8080/predict',   // URL for Wheat service
+    'http://192.168.191.101:8080/predict',    // URL for Corn service
+    // Add more URLs as needed
+  ];
+
+  // Function to get the server URL based on serviceName
+  String get serverUrl {
+    switch (widget.serviceName) {
+      case 'Cotton':
+        return serverUrls[0];
+      case 'Wheat':
+        return serverUrls[1];
+      case 'Corn':
+        return serverUrls[2];
+      default:
+        throw Exception('Service not supported');
+    }
+  }
 
   // Function to pick an image from the gallery
   Future<void> _pickImageFromGallery() async {
@@ -44,20 +70,52 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
 
   // Function to upload the image to the Flask server
   Future<void> _uploadImage(File imageFile) async {
-    var request = http.MultipartRequest('POST', Uri.parse(serverUrl));
-    request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
+    setState(() {
+      _isLoading = true; // Set loading state to true
+    });
 
-    var res = await request.send();
-    if (res.statusCode == 200) {
-      final response = await http.Response.fromStream(res);
-      final Map<String, dynamic> responseData = json.decode(response.body);
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(serverUrl));
+      request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
+
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        final responseData = await http.Response.fromStream(response);
+        final Map<String, dynamic> responseJson = json.decode(responseData.body);
+        setState(() {
+          _prediction = responseJson['prediction'];
+        });
+        // Pass the prediction to the DetectionPage
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetectionPage(
+              serviceName: widget.serviceName,
+              detectedDisease: _prediction ?? '',  // Pass the detected disease
+            ),
+          ),
+        );
+      } else {
+        _showError('Failed to upload image');
+      }
+    } catch (e) {
+      _showError('An error occurred: $e');
+    } finally {
       setState(() {
-        _prediction = responseData['prediction'];
+        _isLoading = false; // Reset loading state
       });
-      print(_prediction);
-    } else {
-      print('Failed to upload image');
     }
+  }
+
+  // Function to show error messages
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
 
   @override
@@ -102,8 +160,8 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                   icon: const Icon(Icons.photo),
                   label: const Text('Upload from Gallery'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue, // Button color
-                    foregroundColor: Colors.white, // Text color
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -121,8 +179,8 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                   icon: const Icon(Icons.camera),
                   label: const Text('Open Camera'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green, // Button color
-                    foregroundColor: Colors.white, // Text color
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -137,16 +195,24 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: ElevatedButton.icon(
-                    onPressed: () {
+                    onPressed: _isLoading ? null : () {
                       if (_image != null) {
                         _uploadImage(_image!);
                       }
                     },
-                    icon: const Icon(Icons.upload),
-                    label: const Text('Upload Image to Server'),
+                    icon: _isLoading
+                        ? const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    )
+                        : const Icon(Icons.upload),
+                    label: Text(_isLoading ? 'Processing...' : 'Detect'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange, // Button color
-                      foregroundColor: Colors.white, // Text color
+                      backgroundColor: Colors.orange,
+                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),

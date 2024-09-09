@@ -1,7 +1,8 @@
+import 'package:agriplant/newpages/new_post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:agriplant/data/marketplace_data.dart';
-import 'package:agriplant/newpages/NewCartPage.dart';
+import 'package:agriplant/newpages/marketplace_product_page.dart';
 
 class MarketplacePage extends StatefulWidget {
   const MarketplacePage({super.key});
@@ -42,7 +43,7 @@ class _MarketplacePageState extends State<MarketplacePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProductDetailPage(product: cartItem),
+                          builder: (context) => NewPostPage(product: cartItem),
                         ),
                       );
                     },

@@ -20,7 +20,7 @@ class LoginSignupPage extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.only(top: 200.0),
               // Use the logo image from assets
-              child: Image(image: AssetImage('assets/logo.png'), height: 100), // Add height if needed
+              child: Image(image: AssetImage('assets/Agrivision_no_bg.png'), height: 100), // Add height if needed
             ),
             const SizedBox(height: 100),
             const Text(
