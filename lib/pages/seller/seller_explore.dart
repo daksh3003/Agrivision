@@ -1,5 +1,6 @@
 import 'package:agriplant/data/seller_products.dart';
 import 'package:agriplant/widgets/seller_card.dart';
+import 'package:agriplant/newpages/Contact_page.dart'; // Import the ContactPage
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
@@ -73,8 +74,14 @@ class SellerExplore extends StatelessWidget {
                             ),
                             const Text("Get free support from our customer service"),
                             FilledButton(
-                              onPressed: () {},
-                              child: const Text("Call now"),
+                              onPressed: () {
+                                // Redirect to ContactPage on button press
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const ContactPage()),
+                                );
+                              },
+                              child: const Text("Contact Us"),
                             ),
                           ],
                         ),
