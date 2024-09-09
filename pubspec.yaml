@@ -22,17 +22,28 @@ dependencies:
   cloud_firestore: ^4.14.0
   flutter_localization: ^0.2.2
   firebase_storage: ^11.2.0
+  rename_app: ^1.6.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.2
+  flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/Agrivision.png"
+  adaptive_icon_foreground: "assets/logo_foreground.png"
+  adaptive_icon_background: "#ffffff"
 
 flutter:
   uses-material-design: true
 
   assets:
     - assets/
+    - assets/Agrivision.png
+    - assets/Agrivision_no_bg.png
     - assets/logo.png
     - assets/social.png
     - assets/marketplace/

@@ -43,7 +43,7 @@ class _MarketplacePageState extends State<MarketplacePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => NewPostPage(),
+                          builder: (context) => NewPostPage(product: cartItem),
                         ),
                       );
                     },

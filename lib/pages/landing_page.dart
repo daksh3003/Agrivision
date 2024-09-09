@@ -22,7 +22,7 @@ class _LandingPageState extends State<LandingPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('App Name'),
+        title: Text('AgriVision'),
       ),
       body: Center(
         child: Column(

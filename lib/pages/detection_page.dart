@@ -53,6 +53,7 @@ class _DetectionPageState extends State<DetectionPage> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green,
         title: Text('${widget.serviceName} Detection Result'),
       ),
       body: isLoading
