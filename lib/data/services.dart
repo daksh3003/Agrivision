@@ -14,16 +14,16 @@ List<Service> services = [
     image: "assets/marketplace/cotton.jpg",
   ),
   const Service(
-    name: "Hire Worker",
-    image: "assets/services/workers.jpg",
+    name: "Tomato",
+    image: "assets/services/tomato.jpg",
   ),
   const Service(
-    name: "Cultivation process",
-    image: "assets/services/cultivation.jpg",
+    name: "Cabbage",
+    image: "assets/services/cabbage.jpg..webp",
   ),
   const Service(
-    name: "Crop disease solution",
-    image: "assets/services/crop_disease.jpg",
+    name: "Radish",
+    image: "assets/services/radish.jpg",
   ),
   const Service(
     name: "Apple",
