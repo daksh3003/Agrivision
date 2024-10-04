@@ -17,7 +17,12 @@ Our AI-powered farming app is designed to assist farmers in diagnosing crop and 
 - **Seller Chat**: A built-in chat feature enables farmers to communicate directly with sellers or buyers for faster transactions and better coordination.
 
 ## Screenshots
-(TODO: Add relevant screenshots of the app here)
+![image (6)](https://github.com/user-attachments/assets/4b1d7d0f-ea79-4513-b038-dc4cf373d765)
+![image (7)](https://github.com/user-attachments/assets/9dcede8f-e898-4a1a-8e6f-b573f96da728)
+![image (5)](https://github.com/user-attachments/assets/5c3fac2e-5e14-4e75-88f3-f9fda8d38e71)
+
+
+
 
 ## Tech Stack
 - **Frontend**: Flutter (using both Jetpack Compose and XML for layout)
