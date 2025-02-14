@@ -28,7 +28,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
   final List<String> serverUrls = [
     'http://192.168.191.101:8000/predict',  // URL for Cotton service
     'http://192.168.191.101:8080/predict',   // URL for Wheat service
-    'http://192.168.191.101:8080/predict',    // URL for Corn service
+    'http://139.84.156.45:8080/predict',    // URL for Corn service
     // Add more URLs as needed
   ];
 
