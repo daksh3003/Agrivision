@@ -6,12 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:agriplant/newpages/Communty_page.dart';
-
 import 'package:badges/badges.dart' as badges;
-
-
+import 'package:agriplant/pages/ChatBotPage.dart'; // Import your ChatBotPage
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,33 +22,39 @@ class _HomePageState extends State<HomePage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String username = 'Loading...';
 
-  final pages = [const ExplorePage(), const ServicesPage(), const MarketplacePage(),   CommunityPage()];
+  final pages = [
+    const ExplorePage(),
+    const ServicesPage(),
+    const MarketplacePage(),
+    CommunityPage()
+  ];
 
   int currentPageIndex = 0;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _fetchUserName();
   }
 
   Future<void> _fetchUserName() async {
-    try{
+    try {
       User? user = _auth.currentUser;
-      if(user != null){
-        DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
-        if(userDoc.exists) {
+      if (user != null) {
+        DocumentSnapshot userDoc =
+        await _firestore.collection('users').doc(user.uid).get();
+        if (userDoc.exists) {
           setState(() {
             username = userDoc['name'] ?? 'No name';
           });
         } else {
           setState(() {
-            username = 'unknown user';
+            username = 'Unknown user';
           });
         }
       }
-    } catch(e) {
-      print('error fetching user data');
+    } catch (e) {
+      print('Error fetching user data');
       setState(() {
         username = 'Error Loading Name';
       });
@@ -87,7 +90,8 @@ class _HomePageState extends State<HomePage> {
               "Hi $username👋🏾",
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            Text("Enjoy our services", style: Theme.of(context).textTheme.bodySmall)
+            Text("Enjoy our services",
+                style: Theme.of(context).textTheme.bodySmall)
           ],
         ),
         actions: [
@@ -144,6 +148,19 @@ class _HomePageState extends State<HomePage> {
             activeIcon: Icon(Icons.group),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green.shade700,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ChatBotPage()),
+          );
+        },
+        child: const Icon(
+          Icons.chat,
+          color: Colors.white,
+        ),
       ),
     );
   }

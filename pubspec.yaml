@@ -23,6 +23,9 @@ dependencies:
   flutter_localization: ^0.2.2
   firebase_storage: ^11.2.0
   rename_app: ^1.6.1
+  flutter_gemini: ^3.0.0
+  dash_chat_2: ^0.0.21
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:
